@@ -128,6 +128,44 @@ details[open]>summary{background:linear-gradient(110deg,#eaf4ff,#dfecfc)}
 .vault-unlock{max-width:580px;margin:30px auto;padding:24px;background:#fff;border:1px solid #cbdff0;border-radius:20px;box-shadow:0 9px 25px #5f87b419}
 .vault-unlock h2{font-size:23px;margin-bottom:12px}
 .vault-unlock input{display:block;margin-bottom:14px}
+
+/* Compact account-style privacy UI and wider navigation */
+.wrap{max-width:1410px;grid-template-columns:250px minmax(0,1fr) 310px;gap:16px}
+.side-menu{min-width:0;padding:12px}
+.side-menu a{font-size:14px;padding:11px 10px;gap:10px;overflow-wrap:anywhere}
+.side-menu .menu-symbol{flex:0 0 39px}
+.privacy-panel{padding:19px;background:linear-gradient(165deg,#fff,#f5f9ff);border-radius:21px}
+.privacy-panel .aside-title{font-size:18px}
+.privacy-illustration{height:90px;text-align:center;background:radial-gradient(ellipse at center,#ecf7ff 20%,transparent 75%);margin:0 auto 4px}
+.privacy-illustration svg{width:130px;height:90px}
+.privacy-lead{text-align:center;font-size:14px;font-weight:800;color:#2b4e76;line-height:1.4}
+.privacy-panel>.note{font-size:12px;line-height:1.6}
+.privacy-status{font-size:12px;line-height:1.5;padding:11px;background:#e9f4ff}
+.privacy-main-actions{gap:8px;margin:9px 0}
+.privacy-main-actions button{font-weight:700;width:100%;padding:11px 10px}
+.privacy-details{margin-top:13px;border:1px solid #e0eaf6;border-radius:13px;overflow:hidden;background:#fff}
+.privacy-details>summary{font-size:12px;font-weight:650;padding:11px 12px;line-height:1.4;display:flex;align-items:center}
+.privacy-details>.inside{padding:0 12px 12px}
+.privacy-details .note{font-size:12px;line-height:1.55;margin:9px 0}
+.privacy-delete{color:#a94f63;border-color:#e8c8d1;background:#fff9fb;font-size:12px;padding:8px 9px}
+.privacy-dialog{width:min(440px,calc(100vw - 30px));max-height:min(88vh,700px);overflow:auto;border:1px solid #dbe9fa;border-radius:27px;padding:27px 30px 26px;background:linear-gradient(155deg,#fff,#f4f9ff);box-shadow:0 22px 65px #1e426b40;color:#263c58}
+.privacy-dialog::backdrop{background:rgba(22,42,75,.46);backdrop-filter:blur(5px)}
+.privacy-dialog h2{font-size:25px;text-align:center;margin:5px 0 10px}
+.privacy-dialog p{font-size:13px;line-height:1.6;text-align:center;color:#667994}
+.dialog-symbol{width:66px;height:66px;border-radius:22px;margin:0 auto 12px;display:grid;place-items:center;background:linear-gradient(145deg,#e8f3ff,#d7e8fb);font-size:29px;box-shadow:0 6px 16px #517fbb19}
+.privacy-dialog .privacy-form{margin:18px 0;gap:8px}
+.privacy-dialog .privacy-form label{font-size:13px;color:#284a72}
+.privacy-dialog .privacy-form input{padding:12px;border-radius:13px;background:white}
+.privacy-dialog .privacy-form button{width:100%;padding:13px;margin-top:7px;font-weight:700}
+.privacy-close{position:absolute;right:14px;top:13px;width:35px;height:35px;padding:0;border:0;background:#eef5fc;border-radius:50%;font-size:24px;line-height:1}
+.vault-unlock{text-align:center;max-width:430px;margin:clamp(28px,8vh,90px) auto;padding:30px;border-radius:28px;background:linear-gradient(155deg,#fff,#f3f8ff)}
+.vault-unlock .vault-emblem{font-size:40px;width:75px;height:75px;border-radius:24px;background:#e5f1ff;display:grid;place-items:center;margin:0 auto 14px}
+.vault-unlock h2{font-size:26px}
+.vault-unlock label{text-align:left;margin-top:24px}
+.vault-unlock button.primary{width:100%;padding:12px}
+.vault-unlock .note{font-size:12px;line-height:1.55}
+@media(max-width:1100px){.wrap{grid-template-columns:220px minmax(0,1fr)}.aside{grid-column:2}.side-menu{grid-row:1/span 2}}
+@media(max-width:790px){.wrap{grid-template-columns:1fr}.side-menu{grid-column:auto;grid-row:auto}.aside{grid-column:auto}.side-menu a{white-space:nowrap;overflow-wrap:normal}.privacy-dialog{padding:25px 21px}}
 </style></head><body><svg xmlns="http://www.w3.org/2000/svg" class="diary-svg-sprite" aria-hidden="true" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
 <linearGradient id="icBlue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#77bcf0"/><stop offset="1" stop-color="#386cbf"/></linearGradient>
 <linearGradient id="icGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffda8c"/><stop offset="1" stop-color="#f29d48"/></linearGradient>
@@ -160,10 +198,21 @@ details[open]>summary{background:linear-gradient(110deg,#eaf4ff,#dfecfc)}
 <div class="hero-content"><div class="journal-logo" aria-hidden="true"><img src="assets/diary-leaf.svg" alt=""></div><div class="journal-heading"><h1>Дневник состояний и настроений</h1><p class="sub">Наблюдения между сессиями</p></div></div>
 </header>
 <section class="vault-unlock hidden" id="vaultUnlock">
-<h2>🔐 Защищённые записи</h2><p>Записи зашифрованы на этом устройстве. Введите пароль, чтобы открыть дневник.</p>
+<div class="vault-emblem" aria-hidden="true">🔐</div><h2>Откройте свой дневник</h2>
+<p>Записи защищены паролем на этом устройстве.</p>
 <label for="vaultPassword">Пароль дневника</label><input id="vaultPassword" type="password" autocomplete="current-password" placeholder="Введите пароль">
-<button type="button" id="vaultUnlockButton" class="primary">Открыть дневник</button><p id="vaultMessage" role="status" class="note"></p><p class="note">Если пароль потерян, расшифровать записи нельзя. Пароль не хранится на сервере.</p>
-</section><div id="lock" class="lock hidden"><h2>🔒 Бесплатный доступ завершён</h2><p>Пробный доступ действовал до 30 ноября 2026 года включительно (по московскому времени).</p><p>Ваши сохранённые записи не удалены. Вы можете скачать резервную копию.</p><div class="actions" style="justify-content:center"><button onclick="exportData()">⬇ Скачать свои записи</button><button id="buyPersonal" onclick="openPayment('personal')" class="primary">Личная версия — 490 ₽</button><button onclick="openPayment('pro')">Для психолога — 1 990 ₽</button></div><p class="note">Оплата станет доступна после подключения и проверки платёжных ссылок.</p><div class="warning"><b>Техническое примечание:</b> этот локальный макет использует проверку времени в браузере. Это не защищённая система платного доступа. Для публичного запуска обязательна серверная проверка прав.</div></div>
+<button type="button" id="vaultUnlockButton" class="primary">Продолжить</button><p id="vaultMessage" role="status" class="note"></p>
+<p class="note">Пароль не сохраняется. Если его забыть, восстановить зашифрованные записи невозможно.</p>
+</section>
+<dialog id="privacyDialog" class="privacy-dialog" aria-labelledby="privacyDialogTitle">
+<button type="button" id="privacyClose" class="privacy-close" aria-label="Закрыть">×</button>
+<div class="dialog-symbol" aria-hidden="true">🔒</div>
+<h2 id="privacyDialogTitle">Защитить личные записи</h2>
+<p>Придумайте пароль — он понадобится, чтобы открывать защищённый дневник.</p>
+<div id="privacyEncrypt" class="privacy-form"><label for="privacyPassword">Новый пароль (не менее 12 символов)</label><input id="privacyPassword" type="password" autocomplete="new-password" minlength="12" placeholder="Придумайте пароль"><label for="privacyPasswordAgain">Повторите пароль</label><input id="privacyPasswordAgain" type="password" autocomplete="new-password" minlength="12" placeholder="Повторите пароль"><button type="button" id="privacyEnable" class="primary">Зашифровать мои записи</button></div>
+<p class="note">Шифрование AES-GCM выполняется в браузере. Пароль нигде не хранится и не передаётся. <b>Забытый пароль нельзя восстановить.</b></p>
+</dialog>
+<div id="lock" class="lock hidden"><h2>🔒 Бесплатный доступ завершён</h2><p>Пробный доступ действовал до 30 ноября 2026 года включительно (по московскому времени).</p><p>Ваши сохранённые записи не удалены. Вы можете скачать резервную копию.</p><div class="actions" style="justify-content:center"><button onclick="exportData()">⬇ Скачать свои записи</button><button id="buyPersonal" onclick="openPayment('personal')" class="primary">Личная версия — 490 ₽</button><button onclick="openPayment('pro')">Для психолога — 1 990 ₽</button></div><p class="note">Оплата станет доступна после подключения и проверки платёжных ссылок.</p><div class="warning"><b>Техническое примечание:</b> этот локальный макет использует проверку времени в браузере. Это не защищённая система платного доступа. Для публичного запуска обязательна серверная проверка прав.</div></div>
 <div class="wrap" id="app"><nav class="panel side-menu" aria-label="Основное меню дневника"><h2>Разделы дневника</h2><a class="active" href="#diary"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-home"></use></svg></span>Дневник</a><a href="#week"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-week"></use></svg></span>Обзор недели</a><a href="#dynamics"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-chart"></use></svg></span>Динамика</a><a href="#psychologist"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-chat"></use></svg></span>Заметки от психолога</a><a href="#materials"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-book"></use></svg></span>Материалы</a><a href="#privacy"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-backup"></use></svg></span>Конфиденциальность</a></nav><main id="diary"><section class="panel"><div class="nav date-navigation"><button id="prev" aria-label="Предыдущий день">‹</button><div class="date-display"><span class="date-ornament" aria-hidden="true">✦</span><strong id="dateLabel">Сегодня</strong><span class="date-caption">Новый день — новые наблюдения</span></div><button id="next" aria-label="Следующий день">›</button></div><p class="note">Три карточки раскрываются независимо. Можно заполнить одну, две или все три.</p></section><div id="times"></div><div class="diary-sections" aria-label="Мои наблюдения">
 <details class="accordion journal-card card-situation" open><summary class="journal-summary"><span class="journal-title"><span class="journal-icon"><svg aria-hidden="true"><use href="#icon-situation"></use></svg></span>Ситуация</span></summary><div class="inside"><label for="situation">Что произошло? (Факты, без оценок)</label><textarea id="situation" data-k="situation" placeholder="Например: на работе получила замечание от коллеги."></textarea></div></details>
 <details class="accordion journal-card card-thought" open><summary class="journal-summary"><span class="journal-title"><span class="journal-icon"><svg aria-hidden="true"><use href="#icon-thought"></use></svg></span>Мысли</span></summary><div class="inside"><label for="thoughts">Что я подумал(а) в этот момент про себя или про ситуацию?</label><textarea id="thoughts" data-k="thoughts" placeholder="Например: «Я снова сделала недостаточно хорошо», «Со мной что-то не так»."></textarea></div></details>
@@ -175,13 +224,12 @@ details[open]>summary{background:linear-gradient(110deg,#eaf4ff,#dfecfc)}
 <div class="panel"><div class="actions"><button type="button" id="saveDraft">Сохранить черновик</button><button type="button" class="primary" id="saveEntry">✓ Сохранить запись</button></div><p id="saveStatus" class="note" role="status" aria-live="polite">Записи также автоматически сохраняются в этом браузере.</p></div>
 </div></main><aside class="aside"><section class="panel" id="week"><h2 class="aside-title"><svg class="aside-title-icon" aria-hidden="true"><use href="#icon-week"></use></svg><span>Обзор недели</span></h2><div class="week-range-bar"><button type="button" id="weekPrev" aria-label="Предыдущая неделя">‹</button><strong id="weekRange">Текущая неделя</strong><button type="button" id="weekNext" aria-label="Следующая неделя">›</button></div><div id="weekOverview" class="miniweek"></div><p class="note">Смайлик последней отметки каждого дня. Бледный серый смайлик означает, что отметки ещё нет.</p></section><section class="panel" id="dynamics"><h2 class="aside-title"><svg class="aside-title-icon" aria-hidden="true"><use href="#icon-chart"></use></svg><span>Динамика настроения, энергии и стресса</span></h2><div class="periods"><button data-period="7" class="active">Неделя</button><button data-period="30">Месяц</button><button data-period="180">Полгода</button><button data-period="365">Год</button></div><canvas id="chart" width="290" height="170" aria-label="График состояния"></canvas><p class="note">График строится только по заполненным значениям; пропущенные дни не считаются нулевыми.</p></section><section class="panel"><h2 class="aside-title"><svg class="aside-title-icon" aria-hidden="true"><use href="#icon-frequency"></use></svg><span>Частота эмоций</span></h2><div id="emotionFrequency"></div><h3 class="smalltitle">Короткие выводы</h3><ul id="insights" class="insights"></ul><p class="note">Это наблюдения по записям, а не психологическая диагностика.</p></section><section class="panel" id="psychologist"><h2 class="aside-title"><svg class="aside-title-icon" aria-hidden="true"><use href="#icon-therapist"></use></svg><span>Для работы с психологом</span></h2><p class="note">Выберите вопросы, которые хотите обсудить. Отметки сохраняются только в вашем браузере.</p><div id="therapyTopics"></div></section><section class="panel"><h2 class="aside-title"><svg class="aside-title-icon" aria-hidden="true"><use href="#icon-backup"></use></svg><span>Мои записи</span></h2><div class="actions"><button onclick="exportData()">Скачать копию</button><button onclick="document.getElementById('importFile').click()">Восстановить</button><input id="importFile" class="hidden" type="file" accept="application/json"></div><p class="note">Хранение локальное: данные не синхронизируются между устройствами и не передаются психологу автоматически.</p></section><section class="panel" id="materials"><h2 class="aside-title"><svg class="aside-title-icon" aria-hidden="true"><use href="#icon-book"></use></svg><span>Материалы</span></h2><p class="note">Как использовать дневник: утром, днём и вечером отмечайте самочувствие. В разделе «Ситуация и мои наблюдения» записывайте события, мысли и реакции в удобном темпе. В «Динамике» можно увидеть изменения по сохранённым оценкам.</p><p class="note">Это инструмент самонаблюдения, а не медицинская диагностика.</p></section><section class="panel privacy-panel" id="privacy">
 <h2 class="aside-title"><svg class="aside-title-icon" aria-hidden="true"><use href="#icon-backup"></use></svg><span>Конфиденциальность</span></h2>
-<p class="note">Ваши записи остаются в хранилище этого браузера на этом устройстве. На сервер дневника они не отправляются. На другом устройстве записи не появятся автоматически.</p>
-<p class="note"><b>Голосовой ввод:</b> можно использовать микрофон экранной клавиатуры телефона. Сам дневник не записывает и не отправляет аудиофайлы. Распознавание речи может обрабатываться сервисом клавиатуры или операционной системы — это зависит от устройства и его настроек.</p>
-<p id="privacyStatus" class="privacy-status" role="status">Записи хранятся без шифрования. Если устройством пользуются другие люди, включите защиту.</p>
-<div id="privacyEncrypt" class="privacy-form"><label for="privacyPassword">Пароль для защиты записей (не менее 12 символов)</label><input id="privacyPassword" type="password" autocomplete="new-password" minlength="12" placeholder="Новый пароль"><label for="privacyPasswordAgain">Повторите пароль</label><input id="privacyPasswordAgain" type="password" autocomplete="new-password" minlength="12" placeholder="Повторите пароль"><button type="button" id="privacyEnable">🔒 Зашифровать записи</button></div>
-<p class="note">При включении защиты данные шифруются в браузере с помощью AES-GCM. Пароль не отправляется и не сохраняется. <b>Если забудете пароль, восстановить записи нельзя.</b> До включения защиты текущие записи остаются незашифрованными.</p>
-<div class="actions"><button type="button" id="privacyLock" class="hidden">Заблокировать</button><button type="button" id="privacyDelete" class="privacy-delete">Удалить все мои записи с устройства</button></div>
-<p class="note">Перед удалением скачайте копию через «Мои записи», если она нужна. Экспортируемый JSON-файл не зашифрован: храните его в безопасном месте. Удаление из дневника не удаляет ранее скачанные копии или резервные копии самого устройства.</p>
+<div class="privacy-illustration" aria-hidden="true"><svg viewBox="0 0 140 86"><defs><linearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#bcdbff"/><stop offset="1" stop-color="#8acaba"/></linearGradient></defs><ellipse cx="70" cy="72" rx="49" ry="8" fill="#b8d8ea" opacity=".33"/><path d="M70 10q24 14 41 11v23q-2 26-41 39-39-13-41-39V21q17 3 41-11z" fill="url(#shieldGrad)" stroke="#73a9cf" stroke-width="2"/><rect x="57" y="36" width="26" height="22" rx="5" fill="#fff" opacity=".94"/><path d="M62 37v-6a8 8 0 0 1 16 0v6" stroke="#487ca5" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="70" cy="46" r="3" fill="#5385b6"/><path d="M70 49v4" stroke="#5385b6" stroke-width="3" stroke-linecap="round"/></svg></div>
+<p class="privacy-lead">Ваши записи остаются на этом устройстве.</p>
+<p class="note">Дневник не отправляет записи на сервер. Включить защиту паролем можно по желанию.</p>
+<p id="privacyStatus" class="privacy-status" role="status">Записи пока хранятся без шифрования.</p>
+<div class="actions privacy-main-actions"><button type="button" id="privacyOpen" class="primary">Настроить защиту</button><button type="button" id="privacyLock" class="hidden">Заблокировать дневник</button></div>
+<details class="privacy-details"><summary>Как хранятся данные и работает голосовой ввод</summary><div class="inside"><p class="note"><b>Записи:</b> сохраняются в этом браузере. На другом устройстве они не появятся автоматически.</p><p class="note"><b>Голосовой ввод:</b> дневник не записывает аудио. Микрофон клавиатуры может передавать речь сервису производителя устройства или клавиатуры.</p><p class="note"><b>Резервные копии:</b> скачанный JSON не зашифрован. Храните его в надёжном месте.</p><button type="button" id="privacyDelete" class="privacy-delete">Удалить все записи с устройства</button><p class="note">Удаление из дневника не удалит ранее скачанные файлы и резервные копии устройства.</p></div></details>
 </section><section class="panel"><h2>О доступе</h2><p>Тестирование: до 30.11.2026 включительно.</p><p>Далее — платные версии после подключения Prodamus и серверной защиты.</p><p class="note">В этой демонстрации цены и сценарий ограничений уже заложены, платёжные ссылки ещё не введены.</p></section></aside></div><div class="foot">Дневник предназначен для самонаблюдения, не заменяет диагностику, лечение или психологическую помощь. Демо-версия: не вводите сведения, которые не готовы хранить в браузере устройства.</div>
 <script>
 'use strict';
@@ -211,10 +259,14 @@ function updatePrivacyUI(){
  const label=document.getElementById('privacyStatus');
  if(!label)return;
  const secured=isVaultPresent&&!!encryptionKey;
- label.textContent=secured?'🔒 Записи зашифрованы паролем и хранятся только в этом браузере.':'Записи хранятся без шифрования в этом браузере. Включите пароль, если нужна дополнительная защита.';
- document.getElementById('privacyEncrypt').classList.toggle('hidden',secured);
+ label.textContent=secured?'🔒 Защита включена: записи зашифрованы паролем.':'🔓 Защита паролем пока не включена.';
+ document.getElementById('privacyOpen').classList.toggle('hidden',secured);
  document.getElementById('privacyLock').classList.toggle('hidden',!secured);
 }
+const privacyDialog=document.getElementById('privacyDialog');
+document.getElementById('privacyOpen').onclick=()=>{privacyDialog.showModal();};
+document.getElementById('privacyClose').onclick=()=>privacyDialog.close();
+privacyDialog.addEventListener('click',event=>{if(event.target===privacyDialog)privacyDialog.close()});
 document.getElementById('privacyEnable').onclick=async()=>{
  const p=document.getElementById('privacyPassword').value,p2=document.getElementById('privacyPasswordAgain').value,btn=document.getElementById('privacyEnable');
  if(isVaultPresent)return;
@@ -232,7 +284,7 @@ document.getElementById('privacyEnable').onclick=async()=>{
   localStorage.removeItem(storeKey);
   encryptionKey=key;vaultSalt=salt;isVaultPresent=true;
   document.getElementById('privacyPassword').value='';document.getElementById('privacyPasswordAgain').value='';
-  updatePrivacyUI();alert('Готово: текущие записи зашифрованы. Запомните пароль и скачайте резервную копию при необходимости.');
+  updatePrivacyUI();privacyDialog.close();alert('Готово: текущие записи зашифрованы. Запомните пароль и скачайте резервную копию при необходимости.');
  }catch(err){alert('Не получилось завершить защиту. Исходные записи оставлены без изменений.');console.error(err)}finally{btn.disabled=false}
 };
 document.getElementById('privacyLock').onclick=async()=>{
