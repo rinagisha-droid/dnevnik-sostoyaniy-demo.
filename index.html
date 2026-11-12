@@ -166,6 +166,35 @@ details[open]>summary{background:linear-gradient(110deg,#eaf4ff,#dfecfc)}
 .vault-unlock .note{font-size:12px;line-height:1.55}
 @media(max-width:1100px){.wrap{grid-template-columns:220px minmax(0,1fr)}.aside{grid-column:2}.side-menu{grid-row:1/span 2}}
 @media(max-width:790px){.wrap{grid-template-columns:1fr}.side-menu{grid-column:auto;grid-row:auto}.aside{grid-column:auto}.side-menu a{white-space:nowrap;overflow-wrap:normal}.privacy-dialog{padding:25px 21px}}
+
+/* Episode diary: independent situational observations inside each day */
+.episode-section{border:1px solid #d4e7f7;background:linear-gradient(160deg,#ffffff,#f6faff);margin:14px 0}
+.episode-header{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.episode-heading{display:flex;align-items:center;gap:11px;font-size:21px;font-weight:790;margin:0 0 4px}
+.episode-icon{width:40px;height:40px;filter:drop-shadow(0 3px 4px #6e9dd922)}
+.episode-header .primary{font-size:13px;font-weight:720;white-space:nowrap}
+.episode-list{display:grid;gap:9px;margin-top:14px}
+.episode-empty{border:1px dashed #bbd5ed;color:#617c9a;border-radius:15px;padding:15px;text-align:center;font-size:13px;background:#f8fbff}
+.episode-item{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid #d9e7f5;border-radius:15px;padding:12px;background:#fff}
+.episode-item-main{min-width:0;flex:1}
+.episode-item-name{font-weight:760;font-size:14px;color:#31547a;overflow-wrap:anywhere}
+.episode-item-meta{font-size:12px;color:#7187a0;margin-top:5px}
+.episode-item button{white-space:nowrap;font-size:12px}
+.episode-form{border:1px solid #ccdef4;border-radius:18px;padding:17px;margin-top:14px;background:#fff;box-shadow:0 8px 20px #6295c016}
+.episode-form-heading{display:flex;align-items:center;justify-content:space-between}
+.episode-form-heading h3{font-size:19px;margin:0;color:#2e4d77}
+.episode-form-heading button{width:35px;height:35px;border-radius:50%;padding:0;font-size:24px}
+.episode-form .field{margin:12px 0}
+.episode-two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.episode-strength{display:flex;align-items:center;gap:8px;padding:6px 0}
+.episode-strength input{width:100%;min-width:50px;accent-color:#659bd5}
+.episode-strength button{width:34px;flex:0 0 34px;padding:4px;font-size:20px;font-weight:bold}
+.episode-emotion-chips{display:flex;gap:6px;flex-wrap:wrap}
+.episode-emotion-chips button{font-size:12px;padding:7px 9px;display:inline-flex;align-items:center;gap:4px;border-radius:13px}
+.episode-emotion-chips button[aria-pressed="true"]{background:#ddecff;border-color:#7ab1e1}
+.episode-emotion-chips img{width:23px;height:23px;object-fit:contain}
+.episode-danger{color:#b24760;background:#fff6f8;border-color:#e7bcc8}
+@media(max-width:560px){.episode-two-col{grid-template-columns:1fr}.episode-item{align-items:flex-start;flex-wrap:wrap}.episode-heading{font-size:18px}}
 </style></head><body><svg xmlns="http://www.w3.org/2000/svg" class="diary-svg-sprite" aria-hidden="true" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
 <linearGradient id="icBlue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#77bcf0"/><stop offset="1" stop-color="#386cbf"/></linearGradient>
 <linearGradient id="icGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffda8c"/><stop offset="1" stop-color="#f29d48"/></linearGradient>
@@ -213,7 +242,23 @@ details[open]>summary{background:linear-gradient(110deg,#eaf4ff,#dfecfc)}
 <p class="note">Шифрование AES-GCM выполняется в браузере. Пароль нигде не хранится и не передаётся. <b>Забытый пароль нельзя восстановить.</b></p>
 </dialog>
 <div id="lock" class="lock hidden"><h2>🔒 Бесплатный доступ завершён</h2><p>Пробный доступ действовал до 30 ноября 2026 года включительно (по московскому времени).</p><p>Ваши сохранённые записи не удалены. Вы можете скачать резервную копию.</p><div class="actions" style="justify-content:center"><button onclick="exportData()">⬇ Скачать свои записи</button><button id="buyPersonal" onclick="openPayment('personal')" class="primary">Личная версия — 490 ₽</button><button onclick="openPayment('pro')">Для психолога — 1 990 ₽</button></div><p class="note">Оплата станет доступна после подключения и проверки платёжных ссылок.</p><div class="warning"><b>Техническое примечание:</b> этот локальный макет использует проверку времени в браузере. Это не защищённая система платного доступа. Для публичного запуска обязательна серверная проверка прав.</div></div>
-<div class="wrap" id="app"><nav class="panel side-menu" aria-label="Основное меню дневника"><h2>Разделы дневника</h2><a class="active" href="#diary"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-home"></use></svg></span>Дневник</a><a href="#week"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-week"></use></svg></span>Обзор недели</a><a href="#dynamics"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-chart"></use></svg></span>Динамика</a><a href="#psychologist"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-chat"></use></svg></span>Заметки от психолога</a><a href="#materials"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-book"></use></svg></span>Материалы</a><a href="#privacy"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-backup"></use></svg></span>Конфиденциальность</a></nav><main id="diary"><section class="panel"><div class="nav date-navigation"><button id="prev" aria-label="Предыдущий день">‹</button><div class="date-display"><span class="date-ornament" aria-hidden="true">✦</span><strong id="dateLabel">Сегодня</strong><span class="date-caption">Новый день — новые наблюдения</span></div><button id="next" aria-label="Следующий день">›</button></div><p class="note">Три карточки раскрываются независимо. Можно заполнить одну, две или все три.</p></section><div id="times"></div><div class="diary-sections" aria-label="Мои наблюдения">
+<div class="wrap" id="app"><nav class="panel side-menu" aria-label="Основное меню дневника"><h2>Разделы дневника</h2><a class="active" href="#diary"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-home"></use></svg></span>Дневник</a><a href="#week"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-week"></use></svg></span>Обзор недели</a><a href="#dynamics"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-chart"></use></svg></span>Динамика</a><a href="#psychologist"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-chat"></use></svg></span>Заметки от психолога</a><a href="#materials"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-book"></use></svg></span>Материалы</a><a href="#privacy"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-backup"></use></svg></span>Конфиденциальность</a></nav><main id="diary"><section class="panel"><div class="nav date-navigation"><button id="prev" aria-label="Предыдущий день">‹</button><div class="date-display"><span class="date-ornament" aria-hidden="true">✦</span><strong id="dateLabel">Сегодня</strong><span class="date-caption">Новый день — новые наблюдения</span></div><button id="next" aria-label="Следующий день">›</button></div><p class="note">Три карточки раскрываются независимо. Можно заполнить одну, две или все три.</p></section><div id="times"></div><section class="panel episode-section" id="episodes">
+<div class="episode-header"><div><h2 class="episode-heading"><svg class="episode-icon" aria-hidden="true"><use href="#icon-situation"></use></svg><span>Ситуации за день</span></h2><p class="note">Записывайте каждый эпизод отдельно — даже если за день произошло несколько событий.</p></div><button type="button" class="primary" id="episodeNew">+ Записать ситуацию</button></div>
+<div id="episodeList" class="episode-list" aria-live="polite"></div>
+<form id="episodeForm" class="episode-form hidden" autocomplete="off">
+<div class="episode-form-heading"><h3 id="episodeFormTitle">Новая ситуация</h3><button type="button" id="episodeCancel" aria-label="Закрыть форму">×</button></div>
+<p class="note">Можно заполнить только то, что сейчас важно. Запись останется в выбранном дне.</p>
+<div class="episode-two-col"><div class="field"><label for="episodeTime">Когда это было?</label><input id="episodeTime" type="time"></div><div class="field"><label for="episodeIntensity">Насколько сильная реакция? <output id="episodeIntensityValue">5/10</output></label><div class="episode-strength"><button type="button" id="episodeMinus" aria-label="Уменьшить интенсивность">−</button><input id="episodeIntensity" type="range" min="0" max="10" value="5"><button type="button" id="episodePlus" aria-label="Увеличить интенсивность">+</button></div></div></div>
+<div class="field"><label for="episodeSituation">Что произошло?</label><textarea id="episodeSituation" placeholder="Например: получила замечание от коллеги"></textarea></div>
+<div class="field"><label for="episodeThoughts">Что я подумал(а) про себя или про ситуацию?</label><textarea id="episodeThoughts" placeholder="Например: «Я снова сделала недостаточно хорошо»"></textarea></div>
+<div class="field"><label for="episodeEmotions">Что я почувствовал(а)?</label><div class="episode-emotion-chips" id="episodeEmotions" role="group" aria-label="Выберите эмоции"></div></div>
+<div class="field"><label for="episodeBody">Что происходило в теле?</label><textarea id="episodeBody" placeholder="Например: напряжение в плечах, учащённое сердцебиение"></textarea></div>
+<div class="field"><label for="episodeReaction">Как я отреагировал(а)?</label><textarea id="episodeReaction" placeholder="Что я сделал(а), сказал(а) или чего избежал(а)?"></textarea></div>
+<div class="field"><label for="episodeOutcome">Чем завершилась ситуация? Что помогло?</label><textarea id="episodeOutcome" placeholder="Например: сделала перерыв, успокоилась, вернулась к задаче"></textarea></div>
+<div class="actions"><button type="submit" class="primary" id="episodeSave">Сохранить эпизод</button><button type="button" id="episodeCancelBottom">Отмена</button><button type="button" id="episodeDelete" class="episode-danger hidden">Удалить эпизод</button></div>
+<p class="note" id="episodeMessage" role="status"></p>
+</form>
+</section><div class="diary-sections" aria-label="Мои наблюдения">
 <details class="accordion journal-card card-situation" open><summary class="journal-summary"><span class="journal-title"><span class="journal-icon"><svg aria-hidden="true"><use href="#icon-situation"></use></svg></span>Ситуация</span></summary><div class="inside"><label for="situation">Что произошло? (Факты, без оценок)</label><textarea id="situation" data-k="situation" placeholder="Например: на работе получила замечание от коллеги."></textarea></div></details>
 <details class="accordion journal-card card-thought" open><summary class="journal-summary"><span class="journal-title"><span class="journal-icon"><svg aria-hidden="true"><use href="#icon-thought"></use></svg></span>Мысли</span></summary><div class="inside"><label for="thoughts">Что я подумал(а) в этот момент про себя или про ситуацию?</label><textarea id="thoughts" data-k="thoughts" placeholder="Например: «Я снова сделала недостаточно хорошо», «Со мной что-то не так»."></textarea></div></details>
 <details class="accordion journal-card card-emotions" open><summary class="journal-summary"><span class="journal-title"><span class="journal-icon"><svg aria-hidden="true"><use href="#icon-emotions"></use></svg></span>Эмоции</span></summary><div class="inside"><p class="note">Что я почувствовал(а)? Отметьте эмоции и при желании укажите интенсивность.</p><div id="emotionChips" class="chips"></div><div class="intensity" id="intensityControls"><b>Насколько сильно я это чувствую?</b><p class="note">Оцените интенсивность каждой выбранной эмоции от 0 до 10.</p><div id="intensityRows"></div></div><div id="otherWrap" class="hidden" style="margin-top:8px"><label for="otherEmotion">Другая эмоция — своими словами</label><textarea id="otherEmotion" data-k="otherEmotion" placeholder="Опишите своими словами, что вы почувствовали"></textarea></div></div></details>
@@ -320,7 +365,70 @@ function renderTimes(){document.getElementById('times').innerHTML=times.map(([id
  document.querySelectorAll('[data-mood]').forEach(el=>el.onclick=()=>{let [id,i]=el.dataset.mood.split(':');const d=get();d[id]??={};d[id].selected=+i;persist();paintSelections();renderExtras()});
  document.querySelectorAll('[data-adjust]').forEach(el=>el.onclick=()=>{let [id,k,step]=el.dataset.adjust.split(':');const d=get();d[id]??={};let v=d[id][k];v=Number.isInteger(v)?v:5;d[id][k]=Math.min(10,Math.max(0,v+Number(step)));persist();paintSelections();draw();renderExtras()});paintSelections()}
 function paintSelections(){const d=get();document.querySelectorAll('[data-mood]').forEach(el=>{let [id,i]=el.dataset.mood.split(':');el.classList.toggle('sel',d[id]?.selected===+i);el.setAttribute('aria-pressed',d[id]?.selected===+i)});document.querySelectorAll('[data-score]').forEach(el=>{let [id,k]=el.dataset.score.split(':');el.textContent=Number.isInteger(d[id]?.[k])?`${d[id][k]}/10`:'—/10'})}
-function render(){document.getElementById('dateLabel').textContent=date.toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long',year:'numeric'});renderTimes();document.querySelectorAll('[data-k]').forEach(el=>{el.value=get()[el.dataset.k]||''});document.getElementById('otherWrap').classList.toggle('hidden',!get().otherOpen);renderEmotionChips();renderIntensity();draw();renderExtras()}
+
+/* Several separate emotional episodes per day. Stored within existing dated local data. */
+let editingEpisodeId=null,selectedEpisodeEmotions=[];
+function episodeDay(){const d=get();if(!Array.isArray(d.episodes))d.episodes=[];return d.episodes}
+function episodeText(value){return String(value||'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
+function episodeTitle(item){const words=String(item.situation||'').trim().replace(/\s+/g,' ');return words.length>75?words.slice(0,72)+'…':words||'Ситуация без описания'}
+function episodeEditor(open){document.getElementById('episodeForm').classList.toggle('hidden',!open)}
+function episodeChips(){
+ const el=document.getElementById('episodeEmotions');el.innerHTML='';
+ for(const name of emotions){const b=document.createElement('button');b.type='button';b.dataset.episodeEmotion=name;b.setAttribute('aria-pressed',String(selectedEpisodeEmotions.includes(name)));const img=document.createElement('img');img.src=emotionPictures[name]||moodImages[2];img.alt='';b.append(img,document.createTextNode(name));b.onclick=()=>{if(selectedEpisodeEmotions.includes(name))selectedEpisodeEmotions=selectedEpisodeEmotions.filter(x=>x!==name);else selectedEpisodeEmotions.push(name);episodeChips()};el.append(b)}
+}
+function renderEpisodeList(){
+ const list=document.getElementById('episodeList'),items=episodeDay();list.innerHTML='';
+ if(!items.length){list.innerHTML='<div class="episode-empty">Пока нет отдельных ситуаций за этот день. Нажмите «Записать ситуацию», чтобы добавить первую.</div>';return}
+ items.forEach((item,index)=>{
+  const entry=document.createElement('div');entry.className='episode-item';
+  const left=document.createElement('div');left.className='episode-item-main';
+  const title=document.createElement('div');title.className='episode-item-name';title.textContent=episodeTitle(item);
+  const info=document.createElement('div');info.className='episode-item-meta';info.textContent=(item.time?item.time+' · ':'')+(Array.isArray(item.emotions)&&item.emotions.length?item.emotions.join(', ')+' · ':'')+'Интенсивность '+(Number.isFinite(item.intensity)?item.intensity:'—')+'/10';
+  left.append(title,info);
+  const edit=document.createElement('button');edit.type='button';edit.textContent='Открыть';edit.onclick=()=>openEpisode(index);
+  entry.append(left,edit);list.append(entry);
+ })
+}
+function episodeSetIntensity(value){const el=document.getElementById('episodeIntensity');el.value=String(Math.max(0,Math.min(10,Number(value)||0)));document.getElementById('episodeIntensityValue').textContent=el.value+'/10'}
+function openEpisode(index){
+ const d=episodeDay();let item=index===null?null:d[index];
+ if(index!==null&&!item)return;
+ editingEpisodeId=item?.id||null;
+ const fields=['time','situation','thoughts','body','reaction','outcome'];
+ for(const key of fields)document.getElementById('episode'+key[0].toUpperCase()+key.slice(1)).value=item?.[key]||'';
+ selectedEpisodeEmotions=Array.isArray(item?.emotions)?[...item.emotions]:[];
+ episodeSetIntensity(Number.isFinite(item?.intensity)?item.intensity:5);
+ episodeChips();document.getElementById('episodeFormTitle').textContent=item?'Редактировать ситуацию':'Новая ситуация';
+ document.getElementById('episodeDelete').classList.toggle('hidden',!item);
+ document.getElementById('episodeMessage').textContent='';
+ episodeEditor(true);
+ document.getElementById('episodeForm').scrollIntoView({block:'nearest',behavior:'smooth'});
+}
+function closeEpisode(){episodeEditor(false);editingEpisodeId=null;selectedEpisodeEmotions=[]}
+document.getElementById('episodeNew').onclick=()=>openEpisode(null);
+document.getElementById('episodeCancel').onclick=closeEpisode;
+document.getElementById('episodeCancelBottom').onclick=closeEpisode;
+document.getElementById('episodeIntensity').oninput=event=>episodeSetIntensity(event.target.value);
+document.getElementById('episodeMinus').onclick=()=>episodeSetIntensity(+document.getElementById('episodeIntensity').value-1);
+document.getElementById('episodePlus').onclick=()=>episodeSetIntensity(+document.getElementById('episodeIntensity').value+1);
+document.getElementById('episodeForm').onsubmit=event=>{
+ event.preventDefault();
+ const field=key=>document.getElementById('episode'+key[0].toUpperCase()+key.slice(1)).value.trim();
+ const record={id:editingEpisodeId||crypto.randomUUID(),time:field('time'),situation:field('situation'),thoughts:field('thoughts'),emotions:[...selectedEpisodeEmotions],intensity:Number(document.getElementById('episodeIntensity').value),body:field('body'),reaction:field('reaction'),outcome:field('outcome')};
+ const items=episodeDay(),index=items.findIndex(x=>x.id===record.id);
+ if(index>=0)items[index]=record;else items.push(record);
+ persist();closeEpisode();renderEpisodeList();
+ document.getElementById('episodeMessage').textContent='Ситуация сохранена в этом браузере.';
+ renderExtras();
+};
+document.getElementById('episodeDelete').onclick=()=>{
+ if(!editingEpisodeId)return;
+ if(!confirm('Удалить эту ситуацию? Другие записи за день останутся.'))return;
+ get().episodes=episodeDay().filter(e=>e.id!==editingEpisodeId);
+ persist();closeEpisode();renderEpisodeList();renderExtras();
+};
+
+function render(){document.getElementById('dateLabel').textContent=date.toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long',year:'numeric'});renderTimes();closeEpisode();renderEpisodeList();document.querySelectorAll('[data-k]').forEach(el=>{el.value=get()[el.dataset.k]||''});document.getElementById('otherWrap').classList.toggle('hidden',!get().otherOpen);renderEmotionChips();renderIntensity();draw();renderExtras()}
 function renderEmotionChips(){
  const d=get(),selected=d.emotions||[],expanded=!!d.moreEmotionsOpen;
  const visible=expanded?emotions:[...mainEmotions,...emotions.filter(e=>!mainEmotions.includes(e)&&selected.includes(e))];
