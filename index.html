@@ -625,7 +625,7 @@ document.getElementById('privacyEnable').onclick=async()=>{
  if(isVaultPresent)return;
  if(p.length<12||p!==p2){alert('Пароль должен содержать не менее 12 символов и совпадать в двух полях.');return}
  if(!globalThis.crypto?.subtle){alert('Шифрование недоступно в этом браузере. Записи не изменены.');return}
- if(!confirm('После шифрования восстановить записи без пароля невозможно. Продолжить?'))return;
+ if(!confirm('После шифрования для восстановления записей потребуется пароль или сохранённый резервный код. Продолжить?'))return;
  btn.disabled=true;
  try{
   await saveQueue;
