@@ -195,6 +195,24 @@ details[open]>summary{background:linear-gradient(110deg,#eaf4ff,#dfecfc)}
 .episode-emotion-chips img{width:23px;height:23px;object-fit:contain}
 .episode-danger{color:#b24760;background:#fff6f8;border-color:#e7bcc8}
 @media(max-width:560px){.episode-two-col{grid-template-columns:1fr}.episode-item{align-items:flex-start;flex-wrap:wrap}.episode-heading{font-size:18px}}
+
+/* Compact joy mood and secure recovery UI */
+.moods{gap:7px}
+.mood{min-height:97px;padding:7px 4px 8px;border-radius:16px}
+.mood-face{width:54px;height:56px;border-radius:16px}
+.mood-face .mood-art{width:54px;height:54px}
+.mood-label{font-size:11px}
+.episode-day-caption{font-size:12px;font-weight:700;color:#4b7198;background:#edf6ff;border:1px solid #d8eafa;padding:8px 12px;border-radius:12px;margin:8px 0}
+.vault-forgot{display:block;margin:9px auto 4px;background:transparent;border:0;text-decoration:underline;color:#397dbb;font-size:13px}
+.vault-recovery{margin:16px 0;padding:16px 14px;text-align:left;border-radius:16px;background:#f3f8ff;border:1px solid #d5e7f8}
+.vault-recovery label{font-size:12px;margin:9px 0 5px}
+.vault-recovery input{width:100%;min-width:0;margin-bottom:9px}
+.vault-recovery .primary{margin-top:7px}
+.privacy-main-actions{flex-wrap:wrap}
+.privacy-main-actions button{white-space:normal}
+.recovery-code-display{font-family:ui-monospace,SFMono-Regular,Consolas,monospace!important;font-size:13px!important;letter-spacing:.4px;width:100%;border:1px solid #b8d5f1;border-radius:11px;background:#f0f7ff;padding:10px 7px;text-align:center}
+#recoveryCodeDialog button,#recoverySetupDialog button.primary{width:100%;margin-top:10px}
+@media(max-width:790px){.mood{min-height:93px;padding:6px 3px 7px}.mood-face,.mood-face .mood-art{width:49px;height:50px}}
 </style></head><body><svg xmlns="http://www.w3.org/2000/svg" class="diary-svg-sprite" aria-hidden="true" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
 <linearGradient id="icBlue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#77bcf0"/><stop offset="1" stop-color="#386cbf"/></linearGradient>
 <linearGradient id="icGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffda8c"/><stop offset="1" stop-color="#f29d48"/></linearGradient>
@@ -230,7 +248,21 @@ details[open]>summary{background:linear-gradient(110deg,#eaf4ff,#dfecfc)}
 <div class="vault-emblem" aria-hidden="true">🔐</div><h2>Откройте свой дневник</h2>
 <p>Записи защищены паролем на этом устройстве.</p>
 <label for="vaultPassword">Пароль дневника</label><input id="vaultPassword" type="password" autocomplete="current-password" placeholder="Введите пароль">
-<button type="button" id="vaultUnlockButton" class="primary">Продолжить</button><p id="vaultMessage" role="status" class="note"></p>
+<button type="button" id="vaultUnlockButton" class="primary">Продолжить</button><p id="vaultMessage" role="status" class="note"></p><button type="button" id="vaultForgot" class="vault-forgot">Забыли пароль?</button>
+<div id="vaultRecovery" class="vault-recovery hidden">
+ <div id="vaultRecoveryAvailable" class="hidden">
+  <p class="note"><b>Восстановление по резервному коду</b></p>
+  <label for="vaultRecoveryCode">Резервный код</label><input id="vaultRecoveryCode" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX">
+  <label for="vaultRecoveryNewPassword">Новый пароль (не менее 12 символов)</label><input id="vaultRecoveryNewPassword" type="password" autocomplete="new-password" placeholder="Новый пароль">
+  <label for="vaultRecoveryAgain">Повторите новый пароль</label><input id="vaultRecoveryAgain" type="password" autocomplete="new-password" placeholder="Повторите пароль">
+  <button id="vaultRecoverySubmit" type="button" class="primary">Восстановить доступ</button>
+ </div>
+ <div id="vaultRecoveryUnavailable" class="hidden">
+  <p class="note">Для этого дневника резервный код не создан. Без пароля расшифровать старые записи невозможно. Если есть скачанная резервная копия, её можно загрузить после сброса.</p>
+  <button type="button" id="vaultReset" class="privacy-delete">Сбросить дневник и удалить защищённые записи</button>
+ </div>
+ <p id="vaultRecoveryMessage" role="status" class="note"></p>
+</div>
 <p class="note">Пароль не сохраняется. Если его забыть, восстановить зашифрованные записи невозможно.</p>
 </section>
 <dialog id="privacyDialog" class="privacy-dialog" aria-labelledby="privacyDialogTitle">
@@ -241,13 +273,30 @@ details[open]>summary{background:linear-gradient(110deg,#eaf4ff,#dfecfc)}
 <div id="privacyEncrypt" class="privacy-form"><label for="privacyPassword">Новый пароль (не менее 12 символов)</label><input id="privacyPassword" type="password" autocomplete="new-password" minlength="12" placeholder="Придумайте пароль"><label for="privacyPasswordAgain">Повторите пароль</label><input id="privacyPasswordAgain" type="password" autocomplete="new-password" minlength="12" placeholder="Повторите пароль"><button type="button" id="privacyEnable" class="primary">Зашифровать мои записи</button></div>
 <p class="note">Шифрование AES-GCM выполняется в браузере. Пароль нигде не хранится и не передаётся. <b>Забытый пароль нельзя восстановить.</b></p>
 </dialog>
+<dialog id="recoveryCodeDialog" class="privacy-dialog" aria-labelledby="recoveryCodeTitle">
+ <h2 id="recoveryCodeTitle">Сохраните резервный код</h2><p>Этот код позволит восстановить доступ, если пароль будет забыт. Он показывается только сейчас.</p>
+ <label for="recoveryCodeReveal">Ваш резервный код</label>
+ <input id="recoveryCodeReveal" class="recovery-code-display" type="text" readonly autocomplete="off">
+ <button type="button" id="recoveryCodeCopy" class="primary">Скопировать код</button>
+ <p class="note">Сохраните его отдельно от устройства. Любой, у кого есть этот код и доступ к браузеру, может восстановить записи.</p>
+ <button type="button" id="recoveryCodeDone" class="primary">Я сохранил(а) код</button>
+</dialog>
+<dialog id="recoverySetupDialog" class="privacy-dialog" aria-labelledby="recoverySetupTitle">
+ <button type="button" id="recoverySetupClose" class="privacy-close" aria-label="Закрыть">×</button>
+ <h2 id="recoverySetupTitle">Резервный код</h2>
+ <p>Введите действующий пароль дневника. После этого мы создадим новый резервный код. Старый код, если был, перестанет работать.</p>
+ <label for="recoveryCurrentPassword">Действующий пароль</label>
+ <input type="password" id="recoveryCurrentPassword" autocomplete="current-password" placeholder="Введите пароль дневника">
+ <button type="button" id="recoveryMakeCode" class="primary">Создать код</button>
+ <p id="recoverySetupMessage" class="note" role="status"></p>
+</dialog>
 <div id="lock" class="lock hidden"><h2>🔒 Бесплатный доступ завершён</h2><p>Пробный доступ действовал до 30 ноября 2026 года включительно (по московскому времени).</p><p>Ваши сохранённые записи не удалены. Вы можете скачать резервную копию.</p><div class="actions" style="justify-content:center"><button onclick="exportData()">⬇ Скачать свои записи</button><button id="buyPersonal" onclick="openPayment('personal')" class="primary">Личная версия — 490 ₽</button><button onclick="openPayment('pro')">Для психолога — 1 990 ₽</button></div><p class="note">Оплата станет доступна после подключения и проверки платёжных ссылок.</p><div class="warning"><b>Техническое примечание:</b> этот локальный макет использует проверку времени в браузере. Это не защищённая система платного доступа. Для публичного запуска обязательна серверная проверка прав.</div></div>
 <div class="wrap" id="app"><nav class="panel side-menu" aria-label="Основное меню дневника"><h2>Разделы дневника</h2><a class="active" href="#diary"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-home"></use></svg></span>Дневник</a><a href="#week"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-week"></use></svg></span>Обзор недели</a><a href="#dynamics"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-chart"></use></svg></span>Динамика</a><a href="#psychologist"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-chat"></use></svg></span>Заметки от психолога</a><a href="#materials"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-book"></use></svg></span>Материалы</a><a href="#privacy"><span class="menu-symbol"><svg class="diary-menu-icon"><use href="#icon-backup"></use></svg></span>Конфиденциальность</a></nav><main id="diary"><section class="panel"><div class="nav date-navigation"><button id="prev" aria-label="Предыдущий день">‹</button><div class="date-display"><span class="date-ornament" aria-hidden="true">✦</span><strong id="dateLabel">Сегодня</strong><span class="date-caption">Новый день — новые наблюдения</span></div><button id="next" aria-label="Следующий день">›</button></div><p class="note">Три карточки раскрываются независимо. Можно заполнить одну, две или все три.</p></section><div id="times"></div><section class="panel episode-section" id="episodes">
 <div class="episode-header"><div><h2 class="episode-heading"><svg class="episode-icon" aria-hidden="true"><use href="#icon-situation"></use></svg><span>Ситуации за день</span></h2><p class="note">Записывайте каждый эпизод отдельно — даже если за день произошло несколько событий.</p></div><button type="button" class="primary" id="episodeNew">+ Записать ситуацию</button></div>
 <div id="episodeList" class="episode-list" aria-live="polite"></div>
 <form id="episodeForm" class="episode-form hidden" autocomplete="off">
 <div class="episode-form-heading"><h3 id="episodeFormTitle">Новая ситуация</h3><button type="button" id="episodeCancel" aria-label="Закрыть форму">×</button></div>
-<p class="note">Можно заполнить только то, что сейчас важно. Запись останется в выбранном дне.</p>
+<p class="note">Можно заполнить только то, что сейчас важно. Запись останется в выбранном дне.</p><p class="episode-day-caption" id="episodeDayCaption"></p>
 <div class="episode-two-col"><div class="field"><label for="episodeTime">Когда это было?</label><input id="episodeTime" type="time"></div><div class="field"><label for="episodeIntensity">Насколько сильная реакция? <output id="episodeIntensityValue">5/10</output></label><div class="episode-strength"><button type="button" id="episodeMinus" aria-label="Уменьшить интенсивность">−</button><input id="episodeIntensity" type="range" min="0" max="10" value="5"><button type="button" id="episodePlus" aria-label="Увеличить интенсивность">+</button></div></div></div>
 <div class="field"><label for="episodeSituation">Что произошло?</label><textarea id="episodeSituation" placeholder="Например: получила замечание от коллеги"></textarea></div>
 <div class="field"><label for="episodeThoughts">Что я подумал(а) про себя или про ситуацию?</label><textarea id="episodeThoughts" placeholder="Например: «Я снова сделала недостаточно хорошо»"></textarea></div>
@@ -273,7 +322,7 @@ details[open]>summary{background:linear-gradient(110deg,#eaf4ff,#dfecfc)}
 <p class="privacy-lead">Ваши записи остаются на этом устройстве.</p>
 <p class="note">Дневник не отправляет записи на сервер. Включить защиту паролем можно по желанию.</p>
 <p id="privacyStatus" class="privacy-status" role="status">Записи пока хранятся без шифрования.</p>
-<div class="actions privacy-main-actions"><button type="button" id="privacyOpen" class="primary">Настроить защиту</button><button type="button" id="privacyLock" class="hidden">Заблокировать дневник</button></div>
+<div class="actions privacy-main-actions"><button type="button" id="privacyOpen" class="primary">Настроить защиту</button><button type="button" id="privacyLock" class="hidden">Заблокировать дневник</button><button type="button" id="privacyRecoverySetup" class="hidden">Создать или обновить резервный код</button></div>
 <details class="privacy-details"><summary>Как хранятся данные и работает голосовой ввод</summary><div class="inside"><p class="note"><b>Записи:</b> сохраняются в этом браузере. На другом устройстве они не появятся автоматически.</p><p class="note"><b>Голосовой ввод:</b> дневник не записывает аудио. Микрофон клавиатуры может передавать речь сервису производителя устройства или клавиатуры.</p><p class="note"><b>Резервные копии:</b> скачанный JSON не зашифрован. Храните его в надёжном месте.</p><button type="button" id="privacyDelete" class="privacy-delete">Удалить все записи с устройства</button><p class="note">Удаление из дневника не удалит ранее скачанные файлы и резервные копии устройства.</p></div></details>
 </section><section class="panel"><h2>О доступе</h2><p>Тестирование: до 30.11.2026 включительно.</p><p>Далее — платные версии после подключения Prodamus и серверной защиты.</p><p class="note">В этой демонстрации цены и сценарий ограничений уже заложены, платёжные ссылки ещё не введены.</p></section></aside></div><div class="foot">Дневник предназначен для самонаблюдения, не заменяет диагностику, лечение или психологическую помощь. Демо-версия: не вводите сведения, которые не готовы хранить в браузере устройства.</div>
 <script>
@@ -297,8 +346,29 @@ function persist(){
  if(isVaultPresent){
   if(!encryptionKey)return;
   const snapshot=JSON.stringify(data),key=encryptionKey,salt=vaultSalt;
-  saveQueue=saveQueue.catch(()=>{}).then(async()=>{const env=await encryptDiary(snapshot,key,salt);localStorage.setItem(encryptedStoreKey,JSON.stringify(env))}).catch(err=>{console.error('Не удалось сохранить зашифрованные записи',err);alert('Не удалось сохранить запись. Проверьте место в браузере и сохраните резервную копию.')});
+  saveQueue=saveQueue.catch(()=>{}).then(async()=>{const env=await encryptDiary(snapshot,key,salt);let current;try{current=JSON.parse(localStorage.getItem(encryptedStoreKey)||'null')}catch{}if(current?.recovery)env.recovery=current.recovery;localStorage.setItem(encryptedStoreKey,JSON.stringify(env))}).catch(err=>{console.error('Не удалось сохранить зашифрованные записи',err);alert('Не удалось сохранить запись. Проверьте место в браузере и сохраните резервную копию.')});
  }else{try{localStorage.setItem(storeKey,JSON.stringify(data))}catch{alert('Не удалось сохранить. Выгрузите резервную копию.')}}
+}
+function normalizeRecoveryCode(code){return String(code||'').replace(/[\s-]/g,'').toUpperCase()}
+function makeRecoveryCode(){const raw=Array.from(crypto.getRandomValues(new Uint8Array(16)),x=>x.toString(16).padStart(2,'0')).join('').toUpperCase();return raw.match(/.{4}/g).join('-')}
+async function createRecoveryEnvelope(password,code){const salt=crypto.getRandomValues(new Uint8Array(16));const recoveryKey=await deriveDiaryKey(normalizeRecoveryCode(code),salt);return encryptDiary(JSON.stringify({password}),recoveryKey,salt)}
+async function setDiaryRecoveryCode(password){
+ await saveQueue;
+ const env=JSON.parse(localStorage.getItem(encryptedStoreKey)||'null');
+ if(!env)throw Error('Защищённые записи не найдены');
+ await decryptDiary(env,password);
+ const code=makeRecoveryCode();
+ env.recovery=await createRecoveryEnvelope(password,code);
+ localStorage.setItem(encryptedStoreKey,JSON.stringify(env));
+ return code
+}
+function showDiaryRecoveryCode(code){const dialog=document.getElementById('recoveryCodeDialog');document.getElementById('recoveryCodeReveal').value=code;dialog.showModal()}
+function unlockDiaryWithData(restored,key,salt){
+ encryptionKey=key;vaultSalt=salt;data=restored;
+ document.getElementById('vaultPassword').value='';
+ document.getElementById('vaultUnlock').classList.add('hidden');
+ if(Date.now()<config.cutoff)document.getElementById('app').classList.remove('hidden');else document.getElementById('lock').classList.remove('hidden');
+ render();updatePrivacyUI();
 }
 function updatePrivacyUI(){
  const label=document.getElementById('privacyStatus');
@@ -307,6 +377,7 @@ function updatePrivacyUI(){
  label.textContent=secured?'🔒 Защита включена: записи зашифрованы паролем.':'🔓 Защита паролем пока не включена.';
  document.getElementById('privacyOpen').classList.toggle('hidden',secured);
  document.getElementById('privacyLock').classList.toggle('hidden',!secured);
+ document.getElementById('privacyRecoverySetup').classList.toggle('hidden',!secured);
 }
 const privacyDialog=document.getElementById('privacyDialog');
 document.getElementById('privacyOpen').onclick=()=>{privacyDialog.showModal();};
@@ -329,8 +400,70 @@ document.getElementById('privacyEnable').onclick=async()=>{
   localStorage.removeItem(storeKey);
   encryptionKey=key;vaultSalt=salt;isVaultPresent=true;
   document.getElementById('privacyPassword').value='';document.getElementById('privacyPasswordAgain').value='';
-  updatePrivacyUI();privacyDialog.close();alert('Готово: текущие записи зашифрованы. Запомните пароль и скачайте резервную копию при необходимости.');
+  updatePrivacyUI();privacyDialog.close();
+  try{const code=await setDiaryRecoveryCode(p);showDiaryRecoveryCode(code)}
+  catch(recoveryError){console.error('Не удалось создать резервный код',recoveryError);alert('Записи зашифрованы, но код восстановления создать не удалось. Пока вы знаете пароль, его можно создать в разделе «Конфиденциальность».')}
  }catch(err){alert('Не получилось завершить защиту. Исходные записи оставлены без изменений.');console.error(err)}finally{btn.disabled=false}
+};
+const recoveryCodeDialog=document.getElementById('recoveryCodeDialog');
+document.getElementById('recoveryCodeDone').onclick=()=>{document.getElementById('recoveryCodeReveal').value='';recoveryCodeDialog.close()};
+document.getElementById('recoveryCodeCopy').onclick=async()=>{
+ const input=document.getElementById('recoveryCodeReveal');
+ try{await navigator.clipboard.writeText(input.value);document.getElementById('recoveryCodeCopy').textContent='Код скопирован'}
+ catch{input.focus();input.select();alert('Скопируйте выделенный код вручную')}
+};
+document.getElementById('privacyRecoverySetup').onclick=()=>{document.getElementById('recoveryCurrentPassword').value='';document.getElementById('recoverySetupMessage').textContent='';document.getElementById('recoverySetupDialog').showModal()};
+document.getElementById('recoverySetupClose').onclick=()=>document.getElementById('recoverySetupDialog').close();
+document.getElementById('recoveryMakeCode').onclick=async()=>{
+ const pass=document.getElementById('recoveryCurrentPassword').value;
+ const button=document.getElementById('recoveryMakeCode'),message=document.getElementById('recoverySetupMessage');
+ if(!pass){message.textContent='Введите действующий пароль.';return}
+ button.disabled=true;message.textContent='Создаём код…';
+ try{const code=await setDiaryRecoveryCode(pass);document.getElementById('recoveryCurrentPassword').value='';document.getElementById('recoverySetupDialog').close();showDiaryRecoveryCode(code)}
+ catch(err){message.textContent='Не получилось создать код. Проверьте пароль.';console.warn('Не удалось создать резервный код')}
+ finally{button.disabled=false}
+};
+document.getElementById('vaultForgot').onclick=()=>{
+ const box=document.getElementById('vaultRecovery'),show=box.classList.contains('hidden');
+ box.classList.toggle('hidden',!show);
+ let env=null;try{env=JSON.parse(localStorage.getItem(encryptedStoreKey)||'null')}catch{}
+ document.getElementById('vaultRecoveryAvailable').classList.toggle('hidden',!env?.recovery);
+ document.getElementById('vaultRecoveryUnavailable').classList.toggle('hidden',!!env?.recovery);
+ document.getElementById('vaultRecoveryMessage').textContent='';
+};
+document.getElementById('vaultRecoverySubmit').onclick=async()=>{
+ const inputCode=document.getElementById('vaultRecoveryCode'),code=normalizeRecoveryCode(inputCode.value),newPass=document.getElementById('vaultRecoveryNewPassword').value,again=document.getElementById('vaultRecoveryAgain').value,button=document.getElementById('vaultRecoverySubmit'),message=document.getElementById('vaultRecoveryMessage');
+ if(code.length!==32){message.textContent='Введите резервный код полностью.';return}
+ if(newPass.length<12||newPass!==again){message.textContent='Новый пароль должен содержать не менее 12 символов и совпадать в двух полях.';return}
+ button.disabled=true;message.textContent='Восстанавливаем доступ…';
+ try{
+  const env=JSON.parse(localStorage.getItem(encryptedStoreKey)||'null');
+  if(!env?.recovery)throw Error('Код восстановления не создан');
+  const decryptedRecovery=await decryptDiary(env.recovery,code);
+  const oldPassword=decryptedRecovery.restored.password;
+  if(typeof oldPassword!=='string'||!oldPassword)throw Error('Некорректный код');
+  const {restored}=await decryptDiary(env,oldPassword);
+  const newSalt=crypto.getRandomValues(new Uint8Array(16)),newKey=await deriveDiaryKey(newPass,newSalt);
+  const updated=await encryptDiary(JSON.stringify(restored),newKey,newSalt);
+  updated.recovery=await createRecoveryEnvelope(newPass,code);
+  const check=await decryptDiary(updated,newPass);
+  if(JSON.stringify(check.restored)!==JSON.stringify(restored))throw Error('Проверка шифрования не пройдена');
+  localStorage.setItem(encryptedStoreKey,JSON.stringify(updated));
+  inputCode.value='';document.getElementById('vaultRecoveryNewPassword').value='';document.getElementById('vaultRecoveryAgain').value='';
+  unlockDiaryWithData(restored,newKey,newSalt);
+  message.textContent='';alert('Доступ восстановлен. Установлен новый пароль, резервный код продолжает действовать.');
+ }catch(err){message.textContent='Не удалось восстановить доступ. Проверьте код. Старые записи не изменены.';console.warn('Восстановление не выполнено')}
+ finally{button.disabled=false}
+};
+document.getElementById('vaultReset').onclick=()=>{
+ if(!confirm('Сброс удалит ВСЕ зашифрованные записи в этом браузере. Без пароля или резервного кода восстановить их не получится. Продолжить?'))return;
+ if(!confirm('Подтвердите безвозвратное удаление защищённых записей и начало нового дневника.'))return;
+ localStorage.removeItem(encryptedStoreKey);localStorage.removeItem(storeKey);data={};isVaultPresent=false;encryptionKey=null;vaultSalt=null;
+ document.getElementById('vaultUnlock').classList.add('hidden');
+ document.getElementById('vaultPassword').value='';
+ if(Date.now()<config.cutoff)document.getElementById('app').classList.remove('hidden');
+ else document.getElementById('lock').classList.remove('hidden');
+ render();updatePrivacyUI();
 };
 document.getElementById('privacyLock').onclick=async()=>{
  await saveQueue;data={};encryptionKey=null;vaultSalt=null;document.getElementById('app').classList.add('hidden');document.getElementById('vaultUnlock').classList.remove('hidden');document.getElementById('vaultPassword').value='';window.scrollTo({top:0,behavior:'smooth'});
@@ -341,11 +474,7 @@ document.getElementById('vaultUnlockButton').onclick=async()=>{
  try{
   const env=JSON.parse(localStorage.getItem(encryptedStoreKey));
   const {key,salt,restored}=await decryptDiary(env,p);
-  encryptionKey=key;vaultSalt=salt;data=restored;
-  document.getElementById('vaultPassword').value='';document.getElementById('vaultUnlock').classList.add('hidden');
-  if(Date.now()<config.cutoff)document.getElementById('app').classList.remove('hidden');
-  else document.getElementById('lock').classList.remove('hidden');
-  render();updatePrivacyUI();message.textContent='';
+  unlockDiaryWithData(restored,key,salt);message.textContent='';
  }catch(err){message.textContent='Пароль не подошёл или защищённые данные повреждены.';console.warn('Не удалось открыть защищённый дневник.')}
  finally{btn.disabled=false}
 };
@@ -356,9 +485,9 @@ document.getElementById('privacyDelete').onclick=async()=>{
  await saveQueue;localStorage.removeItem(storeKey);localStorage.removeItem(encryptedStoreKey);
  data={};encryptionKey=null;vaultSalt=null;isVaultPresent=false;updatePrivacyUI();render();alert('Записи удалены из хранилища этого браузера. Скачанные копии не затронуты.');
 };
-const moodItems=[['😌','Спокойно'],['😊','Уверенно'],['😐','Ровно'],['😟','Тревожно'],['😢','Грустно'],['😴','Устало'],['😠','Раздражённо']];
-const moodImages=['calm','confident','neutral','anxious','sad','tired','irritated'].map(x=>'assets/mood-'+x+'.svg');
-const emotionPictures={'Тревога':moodImages[3],'Радость':moodImages[1],'Обида':moodImages[4],'Злость':moodImages[6],'Грусть':moodImages[4],'Спокойствие':moodImages[0],'Разочарование':moodImages[4],'Напряжение':moodImages[3],'Интерес':moodImages[1],'Страх':moodImages[3],'Раздражение':moodImages[6]};
+const moodItems=[['😌','Спокойно'],['😊','Уверенно'],['😐','Ровно'],['😟','Тревожно'],['😢','Грустно'],['😴','Устало'],['😠','Раздражённо'],['😄','Радостно']];
+const moodImages=['calm','confident','neutral','anxious','sad','tired','irritated','joyful'].map(x=>'assets/mood-'+x+'.svg');
+const emotionPictures={'Тревога':moodImages[3],'Радость':moodImages[7],'Обида':moodImages[4],'Злость':moodImages[6],'Грусть':moodImages[4],'Спокойствие':moodImages[0],'Разочарование':moodImages[4],'Напряжение':moodImages[3],'Интерес':moodImages[1],'Страх':moodImages[3],'Раздражение':moodImages[6]};
 const emotions=['Тревога','Радость','Обида','Злость','Грусть','Спокойствие','Разочарование','Напряжение','Интерес','Страх','Раздражение'];const mainEmotions=['Тревога','Обида','Раздражение','Грусть','Радость'];const emotionEmoji={'Тревога':'😟','Радость':'😊','Обида':'😔','Злость':'😠','Грусть':'😢','Спокойствие':'😌','Разочарование':'😞','Напряжение':'😣','Интерес':'🤔','Страх':'😨','Раздражение':'😤'};
 const times=[['morning','🌅','Утро'],['day','☀️','День'],['evening','🌙','Вечер']];
 function renderTimes(){document.getElementById('times').innerHTML=times.map(([id,emoji,label],i)=>`<details class="accordion" ${i===0?'open':''}><summary class="time-summary time-${id}"><span class="time-title"><span class="time-icon"><svg><use href="#icon-${id==='morning'?'sunrise':id==='day'?'day':'evening'}"></use></svg></span>${label}</span></summary><div class="inside"><div class="prompt-with-icon"><svg class="prompt-icon"><use href="#icon-heart"></use></svg><b>Как я себя чувствую?</b></div><div class="moods">${moodItems.map(([e,t],m)=>`<button class="mood" data-mood="${id}:${m}" aria-label="${t}"><span class="mood-face"><img class="mood-art" src="${moodImages[m]}" alt="" loading="eager"></span><span class="mood-label">${t}</span></button>`).join('')}</div><details class="nested-state"><summary><span class="time-title"><span class="time-icon state-icon"><svg><use href="#icon-heart"></use></svg></span>Моё состояние</span></summary><div class="inside">${[['mood','😊','Настроение'],['energy','⚡','Уровень энергии'],['stress','🌧️','Уровень стресса']].map(([k,ico,title])=>`<div class="scale"><b class="scale-label"><svg class="scale-art"><use href="#icon-${k==='mood'?'mood':k==='energy'?'energy':'stress'}"></use></svg>${title}</b><div class="count"><button aria-label="Уменьшить ${title}" data-adjust="${id}:${k}:-1">−</button><output data-score="${id}:${k}">—/10</output><button aria-label="Увеличить ${title}" data-adjust="${id}:${k}:1">+</button></div></div>`).join('')}</div></details></div></details>`).join('');
@@ -398,7 +527,7 @@ function openEpisode(index){
  for(const key of fields)document.getElementById('episode'+key[0].toUpperCase()+key.slice(1)).value=item?.[key]||'';
  selectedEpisodeEmotions=Array.isArray(item?.emotions)?[...item.emotions]:[];
  episodeSetIntensity(Number.isFinite(item?.intensity)?item.intensity:5);
- episodeChips();document.getElementById('episodeFormTitle').textContent=item?'Редактировать ситуацию':'Новая ситуация';
+ episodeChips();document.getElementById('episodeDayCaption').textContent='Дата записи: '+date.toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long',year:'numeric'});document.getElementById('episodeFormTitle').textContent=item?'Редактировать ситуацию':'Новая ситуация';
  document.getElementById('episodeDelete').classList.toggle('hidden',!item);
  document.getElementById('episodeMessage').textContent='';
  episodeEditor(true);
@@ -414,7 +543,7 @@ document.getElementById('episodePlus').onclick=()=>episodeSetIntensity(+document
 document.getElementById('episodeForm').onsubmit=event=>{
  event.preventDefault();
  const field=key=>document.getElementById('episode'+key[0].toUpperCase()+key.slice(1)).value.trim();
- const record={id:editingEpisodeId||crypto.randomUUID(),time:field('time'),situation:field('situation'),thoughts:field('thoughts'),emotions:[...selectedEpisodeEmotions],intensity:Number(document.getElementById('episodeIntensity').value),body:field('body'),reaction:field('reaction'),outcome:field('outcome')};
+ const record={id:editingEpisodeId||crypto.randomUUID(),date:key(),time:field('time'),situation:field('situation'),thoughts:field('thoughts'),emotions:[...selectedEpisodeEmotions],intensity:Number(document.getElementById('episodeIntensity').value),body:field('body'),reaction:field('reaction'),outcome:field('outcome')};
  const items=episodeDay(),index=items.findIndex(x=>x.id===record.id);
  if(index>=0)items[index]=record;else items.push(record);
  persist();closeEpisode();renderEpisodeList();
