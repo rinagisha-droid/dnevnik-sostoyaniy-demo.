@@ -545,7 +545,6 @@ body::before{
 <p class="note" id="episodeMessage" role="status"></p>
 </form>
 </section><div class="diary-sections" aria-label="Мои наблюдения">
-<details class="accordion journal-card card-situation" open><summary class="journal-summary"><span class="journal-title"><span class="journal-icon"><svg aria-hidden="true"><use href="#icon-situation"></use></svg></span>Ситуация</span></summary><div class="inside"><label for="situation">Что произошло? (Факты, без оценок)</label><textarea id="situation" data-k="situation" placeholder="Например: на работе получила замечание от коллеги."></textarea></div></details>
 <details class="accordion journal-card card-thought" open><summary class="journal-summary"><span class="journal-title"><span class="journal-icon"><svg aria-hidden="true"><use href="#icon-thought"></use></svg></span>Мысли</span></summary><div class="inside"><label for="thoughts">Что я подумал(а) в этот момент про себя или про ситуацию?</label><textarea id="thoughts" data-k="thoughts" placeholder="Например: «Я снова сделала недостаточно хорошо», «Со мной что-то не так»."></textarea></div></details>
 <details class="accordion journal-card card-emotions" open><summary class="journal-summary"><span class="journal-title"><span class="journal-icon"><svg aria-hidden="true"><use href="#icon-emotions"></use></svg></span>Эмоции</span></summary><div class="inside"><p class="note">Что я почувствовал(а)? Отметьте эмоции и при желании укажите интенсивность.</p><div id="emotionChips" class="chips"></div><div class="intensity" id="intensityControls"><b>Насколько сильно я это чувствую?</b><p class="note">Оцените интенсивность каждой выбранной эмоции от 0 до 10.</p><div id="intensityRows"></div></div><div id="otherWrap" class="hidden" style="margin-top:8px"><label for="otherEmotion">Другая эмоция — своими словами</label><textarea id="otherEmotion" data-k="otherEmotion" placeholder="Опишите своими словами, что вы почувствовали"></textarea></div></div></details>
 <details class="accordion journal-card card-reaction" open><summary class="journal-summary"><span class="journal-title"><span class="journal-icon"><svg aria-hidden="true"><use href="#icon-reaction"></use></svg></span>Реакция</span></summary><div class="inside"><label for="reaction">Как я отреагировал(а)? Что я сделал(а), сказал(а) или чего избежал(а)?</label><textarea id="reaction" data-k="reaction" placeholder="Например: замкнулась, стала прокручивать ситуацию в голове, отложила задачу."></textarea></div></details>
@@ -811,6 +810,15 @@ document.getElementById('episodeDelete').onclick=()=>{
  persist();closeEpisode();renderEpisodeList();renderExtras();
 };
 
+function applyResponsiveDiaryCards(){
+ const mobile=window.matchMedia('(max-width:790px)').matches;
+ document.querySelectorAll('.diary-sections > details.journal-card').forEach(card=>{
+  if(mobile)card.open=false;
+  else card.open=card.classList.contains('card-thought')||card.classList.contains('card-emotions')||card.classList.contains('card-reaction');
+ });
+}
+const diaryMobileBreakpoint=window.matchMedia('(max-width:790px)');
+diaryMobileBreakpoint.addEventListener('change',applyResponsiveDiaryCards);
 function render(){document.getElementById('dateLabel').textContent=date.toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long',year:'numeric'});renderTimes();closeEpisode();renderEpisodeList();document.querySelectorAll('[data-k]').forEach(el=>{el.value=get()[el.dataset.k]||''});document.getElementById('otherWrap').classList.toggle('hidden',!get().otherOpen);renderEmotionChips();renderIntensity();draw();renderExtras()}
 function renderEmotionChips(){
  const d=get(),selected=d.emotions||[],expanded=!!d.moreEmotionsOpen;
@@ -857,6 +865,7 @@ if(!closeExpiredTrial()){
  if(isVaultPresent){document.getElementById('app').classList.add('hidden');document.getElementById('vaultUnlock').classList.remove('hidden');}
  else{render();updatePrivacyUI()}
 }
+applyResponsiveDiaryCards();
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)closeExpiredTrial()});
 setInterval(closeExpiredTrial,30000);
 </script></body></html>
