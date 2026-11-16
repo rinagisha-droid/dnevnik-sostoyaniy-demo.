@@ -406,6 +406,7 @@ document.getElementById('privacyEnable').onclick=async()=>{
  }catch(err){alert('Не получилось завершить защиту. Исходные записи оставлены без изменений.');console.error(err)}finally{btn.disabled=false}
 };
 const recoveryCodeDialog=document.getElementById('recoveryCodeDialog');
+recoveryCodeDialog.addEventListener('close',()=>{document.getElementById('recoveryCodeReveal').value='';document.getElementById('recoveryCodeCopy').textContent='Скопировать код'});
 document.getElementById('recoveryCodeDone').onclick=()=>{document.getElementById('recoveryCodeReveal').value='';recoveryCodeDialog.close()};
 document.getElementById('recoveryCodeCopy').onclick=async()=>{
  const input=document.getElementById('recoveryCodeReveal');
