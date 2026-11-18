@@ -504,14 +504,20 @@ body::before{
       <div class="field"><label for="accountCity">Город (необязательно)</label><input id="accountCity" name="city" autocomplete="address-level2"></div>
     </fieldset>
     <div class="field"><label for="accountEmail">Логин (email)</label><input id="accountEmail" name="email" type="email" autocomplete="username" required></div>
-    <div class="field"><label for="accountPassword">Пароль</label><input id="accountPassword" name="password" type="password" required></div>
+    <div class="field"><label for="accountPassword">Пароль</label><input id="accountPassword" name="password" type="password" placeholder="••••••••" required></div>
     <p class="note">После подключения аккаунтов логин и пароль сможет подставлять менеджер паролей вашего устройства.</p>
     <div class="actions">
       <button type="submit" class="primary" id="accountSubmit">Войти</button>
       <button type="button" id="accountBack">На обложку</button>
     </div>
-    <p class="note" id="accountStatus" role="status"></p>
   </form>
+  <div id="accountPreviewResult" hidden>
+    <p id="accountStatus" role="status"></p>
+    <div class="actions">
+      <button type="button" id="continueLocalDiary" class="primary">Открыть локальный дневник</button>
+      <button type="button" id="previewBack">На обложку</button>
+    </div>
+  </div>
 </dialog>
 <section class="vault-unlock hidden" id="vaultUnlock">
 <div class="vault-emblem" aria-hidden="true">🔐</div><h2>Откройте свой дневник</h2>

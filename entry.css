@@ -20,15 +20,54 @@ body:not([data-cover]) #diaryCover {
 #accountDialog input { width: 100%; }
 #signupProfile { border: 0; margin: 0; padding: 0; min-width: 0; }
 #signupProfile legend { font-weight: 700; }
-.mobile-date, .mobile-nav-label, .dictation { display: none; }
+.mobile-date, .mobile-nav-label, .dictation, .dictation-indicator { display: none; }
+.dictation-field { display: contents; }
 
 @media (max-width: 790px) {
-  body[data-cover] .journal-hero { padding: 0 !important; }
+  body[data-cover] {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  body[data-cover]::before {
+    position: absolute !important;
+    inset: auto 0 0 !important;
+    height: min(17svh, 130px) !important;
+    background-position: center bottom !important;
+    background-size: cover !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+  }
+  body[data-cover] .foot { display: none; }
+  body[data-cover] .journal-hero {
+    display: flex;
+    flex-direction: column-reverse;
+    width: 100%;
+    min-height: 0 !important;
+    padding: 0 !important;
+  }
   body[data-cover] .hero-background { position: static !important; height: auto !important; }
-  body[data-cover] .hero-background picture,
-  body[data-cover] .hero-background picture img { height: auto !important; }
+  body[data-cover] .hero-background picture { height: auto !important; }
+  body[data-cover] .hero-background picture img {
+    height: min(25svh, 160px) !important;
+    object-position: center !important;
+  }
   body[data-cover] .journal-hero::after { display: none; }
-  body[data-cover] .hero-content { min-height: 0 !important; padding: 16px; }
+  body[data-cover] .hero-content { min-height: 0 !important; padding: 10px 14px 4px; }
+  body[data-cover] .journal-heading h1 { font-size: clamp(20px, 5.4vw, 25px) !important; }
+  #diaryCover {
+    position: relative;
+    margin: 10px auto 16px;
+    padding: 14px;
+    background: #fffdf9;
+    border-color: #d7e2df;
+    box-shadow: 0 6px 24px #31595718;
+  }
+  #diaryCover h2 { font-size: 18px; margin: 0 0 5px; }
+  #diaryCover p { font-size: 14px; }
+  #diaryCover .note { font-size: 12px; }
   #accountDialog input { font-size: 16px; }
 
   .desktop-date { display: none; }
@@ -43,17 +82,46 @@ body:not([data-cover]) #diaryCover {
     white-space: nowrap;
   }
 
-  #app .side-menu a { flex-direction: column; gap: 2px; height: auto !important; }
-  #app .side-menu .nav-label {
-    display: block !important;
-    font-size: 10px;
-    text-align: center;
-    white-space: normal;
-  }
-  .mobile-nav-label { display: inline; }
-  .desktop-nav-label { display: none; }
-
   #app [data-mobile-hidden] { display: none !important; }
   .dictation { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
   .dictation button { min-height: 44px; flex: 0 0 auto; }
+  .dictation-field { display: block; position: relative; }
+  .dictation-field[data-dictation-active] textarea {
+    padding-top: 38px;
+    border-color: #397dbb;
+  }
+  .dictation-field[data-dictation-active] .dictation-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    position: absolute;
+    top: 7px;
+    left: 8px;
+    padding: 3px 9px;
+    border-radius: 12px;
+    background: #e4effc;
+    color: #254c73;
+    font-size: 12px;
+    font-weight: 650;
+    pointer-events: none;
+  }
+  .dictation-dots { display: flex; gap: 3px; }
+  .dictation-dots i {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: dictation-pulse 1s ease-in-out infinite alternate;
+  }
+  .dictation-dots i:nth-child(2) { animation-delay: 150ms; }
+  .dictation-dots i:nth-child(3) { animation-delay: 300ms; }
+}
+
+@keyframes dictation-pulse {
+  from { opacity: .35; transform: translateY(0); }
+  to { opacity: 1; transform: translateY(-2px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dictation-dots i { animation: none; }
 }

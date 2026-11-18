@@ -3,6 +3,7 @@ const coverForm = coverDialog.querySelector('form');
 const coverPassword = coverForm.elements.password;
 const coverStatus = document.getElementById('accountStatus');
 const signupProfile = document.getElementById('signupProfile');
+const accountPreviewResult = document.getElementById('accountPreviewResult');
 
 document.querySelectorAll('[data-account-mode]').forEach(button => {
   button.addEventListener('click', () => {
@@ -12,6 +13,8 @@ document.querySelectorAll('[data-account-mode]').forEach(button => {
     document.getElementById('accountSubmit').textContent = title;
     coverForm.reset();
     coverStatus.textContent = '';
+    coverForm.hidden = false;
+    accountPreviewResult.hidden = true;
     signupProfile.hidden = !signingUp;
     signupProfile.disabled = !signingUp;
     coverPassword.autocomplete = signingUp ? 'new-password' : 'current-password';
@@ -22,11 +25,19 @@ document.querySelectorAll('[data-account-mode]').forEach(button => {
 coverForm.addEventListener('submit', event => {
   event.preventDefault();
   coverForm.reset();
-  coverStatus.textContent = 'Вход и регистрация появятся после подключения аккаунтов. Сейчас можно открыть локальный дневник с обложки.';
+  coverForm.hidden = true;
+  accountPreviewResult.hidden = false;
+  coverStatus.textContent = 'Это пробная форма. Аккаунт и пароль не сохранены. Можно продолжить в дневнике этого браузера.';
+  document.getElementById('continueLocalDiary').focus();
 });
 coverDialog.addEventListener('close', () => coverForm.reset());
 document.getElementById('accountBack').addEventListener('click', () => coverDialog.close());
-document.getElementById('openLocalDiary').addEventListener('click', () => {
+document.getElementById('previewBack').addEventListener('click', () => coverDialog.close());
+document.getElementById('continueLocalDiary').addEventListener('click', openLocalDiary);
+document.getElementById('openLocalDiary').addEventListener('click', openLocalDiary);
+
+function openLocalDiary() {
+  coverDialog.close();
   delete document.body.dataset.cover;
   setMobileDiarySection('diary');
   draw();
@@ -35,7 +46,7 @@ document.getElementById('openLocalDiary').addEventListener('click', () => {
     .find(element => !element.classList.contains('hidden'));
   visibleScreen.tabIndex = -1;
   visibleScreen.focus();
-});
+}
 
 const sectionBreakpoint = matchMedia('(max-width: 790px)');
 const diaryLinks = [...document.querySelectorAll('.side-menu a')];
@@ -109,6 +120,19 @@ function stopDiaryDictation() {
 }
 
 document.querySelectorAll('#app textarea').forEach(field => {
+  const inputArea = document.createElement('div');
+  inputArea.className = 'dictation-field';
+  const indicator = document.createElement('span');
+  indicator.className = 'dictation-indicator';
+  indicator.setAttribute('aria-hidden', 'true');
+  const dots = document.createElement('span');
+  dots.className = 'dictation-dots';
+  dots.innerHTML = '<i></i><i></i><i></i>';
+  const indicatorLabel = document.createElement('span');
+  indicator.append(dots, indicatorLabel);
+  field.before(inputArea);
+  inputArea.append(field, indicator);
+
   const controls = document.createElement('div');
   controls.className = 'dictation';
   const button = document.createElement('button');
@@ -121,12 +145,13 @@ document.querySelectorAll('#app textarea').forEach(field => {
     status.textContent = 'Диктовка недоступна в этом браузере. Можно использовать микрофон клавиатуры.';
   }
   controls.append(button, status);
-  field.after(controls);
+  inputArea.after(controls);
 
   button.addEventListener('click', () => {
     if (activeDictation?.field === field) {
       button.disabled = true;
       status.textContent = 'Завершаем диктовку…';
+      indicatorLabel.textContent = 'Завершаем…';
       activeDictation.recognition.stop();
       return;
     }
@@ -140,8 +165,14 @@ document.querySelectorAll('#app textarea').forEach(field => {
       button.disabled = false;
       button.textContent = '🎙 Диктовать';
       status.textContent = '';
+      inputArea.removeAttribute('data-dictation-active');
     };
     activeDictation = {field, recognition, reset};
+    recognition.onaudiostart = () => {
+      if (activeDictation?.recognition !== recognition || button.disabled) return;
+      indicatorLabel.textContent = 'Слушаю';
+      status.textContent = 'Микрофон включён. Речь может обрабатываться сервисом браузера.';
+    };
     recognition.onresult = event => {
       if (activeDictation?.recognition !== recognition || !field.getClientRects().length) return;
       const words = Array.from(event.results).slice(event.resultIndex)
@@ -162,9 +193,11 @@ document.querySelectorAll('#app textarea').forEach(field => {
         : 'Не удалось распознать речь. Можно попробовать снова или ввести текст.';
     };
     try {
-      recognition.start();
       button.textContent = 'Остановить';
-      status.textContent = 'Микрофон включён. Речь может обрабатываться сервисом браузера.';
+      inputArea.setAttribute('data-dictation-active', '');
+      indicatorLabel.textContent = 'Подключаем микрофон…';
+      status.textContent = 'Подключаем микрофон…';
+      recognition.start();
     } catch {
       reset();
       status.textContent = 'Не удалось включить микрофон.';
