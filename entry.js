@@ -1,9 +1,7 @@
 const coverDialog = document.getElementById('accountDialog');
 const coverForm = coverDialog.querySelector('form');
 const coverPassword = coverForm.elements.password;
-const coverStatus = document.getElementById('accountStatus');
 const signupProfile = document.getElementById('signupProfile');
-const accountPreviewResult = document.getElementById('accountPreviewResult');
 
 document.querySelectorAll('[data-account-mode]').forEach(button => {
   button.addEventListener('click', () => {
@@ -12,9 +10,6 @@ document.querySelectorAll('[data-account-mode]').forEach(button => {
     document.getElementById('accountTitle').textContent = title;
     document.getElementById('accountSubmit').textContent = title;
     coverForm.reset();
-    coverStatus.textContent = '';
-    coverForm.hidden = false;
-    accountPreviewResult.hidden = true;
     signupProfile.hidden = !signingUp;
     signupProfile.disabled = !signingUp;
     coverPassword.autocomplete = signingUp ? 'new-password' : 'current-password';
@@ -25,15 +20,10 @@ document.querySelectorAll('[data-account-mode]').forEach(button => {
 coverForm.addEventListener('submit', event => {
   event.preventDefault();
   coverForm.reset();
-  coverForm.hidden = true;
-  accountPreviewResult.hidden = false;
-  coverStatus.textContent = 'Это пробная форма. Аккаунт и пароль не сохранены. Можно продолжить в дневнике этого браузера.';
-  document.getElementById('continueLocalDiary').focus();
+  openLocalDiary();
 });
 coverDialog.addEventListener('close', () => coverForm.reset());
 document.getElementById('accountBack').addEventListener('click', () => coverDialog.close());
-document.getElementById('previewBack').addEventListener('click', () => coverDialog.close());
-document.getElementById('continueLocalDiary').addEventListener('click', openLocalDiary);
 document.getElementById('openLocalDiary').addEventListener('click', openLocalDiary);
 
 function openLocalDiary() {

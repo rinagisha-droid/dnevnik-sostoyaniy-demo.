@@ -42,24 +42,23 @@ body:not([data-cover]) #diaryCover {
   }
   body[data-cover] .foot { display: none; }
   body[data-cover] .journal-hero {
-    display: flex;
-    flex-direction: column-reverse;
     width: 100%;
     min-height: 0 !important;
     padding: 0 !important;
   }
-  body[data-cover] .hero-background { position: static !important; height: auto !important; }
-  body[data-cover] .hero-background picture { height: auto !important; }
   body[data-cover] .hero-background picture img {
-    height: min(25svh, 160px) !important;
-    object-position: center !important;
+    object-fit: cover !important;
+    object-position: center 50% !important;
+    opacity: .56 !important;
   }
-  body[data-cover] .journal-hero::after { display: none; }
-  body[data-cover] .hero-content { min-height: 0 !important; padding: 10px 14px 4px; }
+  body[data-cover] .journal-hero::after {
+    background: linear-gradient(90deg, #fcfaf7ed, #fcfaf76b) !important;
+  }
+  body[data-cover] .hero-content { min-height: 0 !important; padding: 10px 14px; }
   body[data-cover] .journal-heading h1 { font-size: clamp(20px, 5.4vw, 25px) !important; }
   #diaryCover {
     position: relative;
-    margin: 10px auto 16px;
+    margin: 8px auto 12px;
     padding: 14px;
     background: #fffdf9;
     border-color: #d7e2df;
