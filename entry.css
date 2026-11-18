@@ -1,0 +1,59 @@
+body[data-cover] #app,
+body[data-cover] #lock,
+body[data-cover] #vaultUnlock,
+body:not([data-cover]) #diaryCover {
+  display: none;
+}
+
+#diaryCover {
+  width: min(480px, calc(100% - 32px));
+  margin: 24px auto;
+}
+
+#accountDialog {
+  width: min(430px, calc(100% - 32px));
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  color: inherit;
+}
+
+#accountDialog input { width: 100%; }
+#signupProfile { border: 0; margin: 0; padding: 0; min-width: 0; }
+#signupProfile legend { font-weight: 700; }
+.mobile-date, .mobile-nav-label, .dictation { display: none; }
+
+@media (max-width: 790px) {
+  body[data-cover] .journal-hero { padding: 0 !important; }
+  body[data-cover] .hero-background { position: static !important; height: auto !important; }
+  body[data-cover] .hero-background picture,
+  body[data-cover] .hero-background picture img { height: auto !important; }
+  body[data-cover] .journal-hero::after { display: none; }
+  body[data-cover] .hero-content { min-height: 0 !important; padding: 16px; }
+  #accountDialog input { font-size: 16px; }
+
+  .desktop-date { display: none; }
+  .mobile-date { display: block; line-height: 1.2; }
+  .mobile-date::first-letter { text-transform: uppercase; }
+  .mobile-date span {
+    display: block;
+    margin-top: 3px;
+    font-size: clamp(12px, 3.6vw, 16px);
+    font-weight: 600;
+    text-transform: none;
+    white-space: nowrap;
+  }
+
+  #app .side-menu a { flex-direction: column; gap: 2px; height: auto !important; }
+  #app .side-menu .nav-label {
+    display: block !important;
+    font-size: 10px;
+    text-align: center;
+    white-space: normal;
+  }
+  .mobile-nav-label { display: inline; }
+  .desktop-nav-label { display: none; }
+
+  #app [data-mobile-hidden] { display: none !important; }
+  .dictation { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+  .dictation button { min-height: 44px; flex: 0 0 auto; }
+}
