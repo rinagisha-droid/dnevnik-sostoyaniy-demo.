@@ -780,7 +780,15 @@ function openEpisode(index){
  episodeEditor(true);
  document.getElementById('episodeForm').scrollIntoView({block:'nearest',behavior:'smooth'});
 }
-function closeEpisode(){episodeEditor(false);editingEpisodeId=null;selectedEpisodeEmotions=[];episodeEmotionsExpanded=false}
+function closeEpisode(){
+ episodeEditor(false);
+ editingEpisodeId=null;
+ selectedEpisodeEmotions=[];
+ episodeEmotionsExpanded=false;
+ document.getElementById('episodeForm').reset();
+ episodeSetIntensity(5,false);
+ document.getElementById('episodeEmotions').replaceChildren();
+}
 document.getElementById('episodeNew').onclick=()=>openEpisode(null);
 document.getElementById('episodeCancel').onclick=closeEpisode;
 document.getElementById('episodeCancelBottom').onclick=closeEpisode;
