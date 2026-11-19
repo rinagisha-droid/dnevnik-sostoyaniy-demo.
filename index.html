@@ -434,7 +434,7 @@ body::before{
  .mood-picker .mood-label{font-size:8px!important}
 }
 </style>
-<link rel="stylesheet" href="entry.css?v=cover-2"></head><body data-cover><svg xmlns="http://www.w3.org/2000/svg" class="diary-svg-sprite" aria-hidden="true" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
+<link rel="stylesheet" href="entry.css?v=accounts-1"></head><body data-cover><svg xmlns="http://www.w3.org/2000/svg" class="diary-svg-sprite" aria-hidden="true" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
 <linearGradient id="icBlue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#77bcf0"/><stop offset="1" stop-color="#386cbf"/></linearGradient>
 <linearGradient id="icGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffda8c"/><stop offset="1" stop-color="#f29d48"/></linearGradient>
 <linearGradient id="icViolet" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b8b3ff"/><stop offset="1" stop-color="#7879d9"/></linearGradient>
@@ -489,13 +489,15 @@ body::before{
     <button type="button" class="primary" data-account-mode="signup">Создать аккаунт</button>
     <button type="button" data-account-mode="login">Войти</button>
   </div>
-  <p class="note">Вход и регистрация пока в предварительном просмотре. Записи хранятся в этом браузере.</p>
+  <p class="note">Создайте аккаунт и подтвердите почту. Записи каждого аккаунта хранятся отдельно в этом браузере. Синхронизация между устройствами пока не подключена.</p>
+  <p id="authStatus" class="note" role="status"></p>
   <button type="button" id="openLocalDiary">Открыть локальный дневник</button>
 </section>
 <dialog class="panel" id="accountDialog" aria-labelledby="accountTitle">
   <h2 id="accountTitle"></h2>
-  <p class="note">Пробная форма. Используйте вымышленные данные. После отправки откроется дневник в этом браузере.</p>
-  <form method="dialog">
+  <p class="note">Подтверждение регистрации и восстановление пароля приходят на вашу почту.</p>
+  <p class="note">Данные профиля и входа обрабатывает Supabase. Текст дневника хранится в вашем браузере. Восстановление пароля аккаунта не меняет отдельный пароль шифрования прежних записей.</p>
+  <form id="accountForm" method="post" onsubmit="return false">
     <fieldset id="signupProfile" hidden disabled>
       <legend>Ваш профиль</legend>
       <div class="field"><label for="accountFamilyName">Фамилия</label><input id="accountFamilyName" name="familyName" autocomplete="family-name" required></div>
@@ -505,18 +507,44 @@ body::before{
     </fieldset>
     <div class="field"><label for="accountEmail">Логин (email)</label><input id="accountEmail" name="email" type="email" autocomplete="username" required></div>
     <div class="field"><label for="accountPassword">Пароль</label><input id="accountPassword" name="password" type="password" placeholder="••••••••" required></div>
-    <p class="note">После подключения аккаунтов логин и пароль сможет подставлять менеджер паролей вашего устройства.</p>
+    <label class="remember-choice"><input id="rememberAccount" type="checkbox"> Это моё устройство — сохранять вход</label>
+    <p class="note">Браузер может предложить сохранить пароль. На общем устройстве завершайте работу кнопкой «Выйти».</p>
     <div class="actions">
       <button type="submit" class="primary" id="accountSubmit">Войти</button>
       <button type="button" id="accountBack">На обложку</button>
+      <button type="button" id="forgotAccount">Забыли пароль?</button>
     </div>
   </form>
+  <form id="accountRecoveryForm" hidden method="post" onsubmit="return false">
+    <label for="recoveryAccountEmail">Email аккаунта</label>
+    <input id="recoveryAccountEmail" name="username" type="email" autocomplete="username" required>
+    <button type="submit" class="primary">Отправить письмо восстановления</button>
+    <button type="button" id="recoveryAccountBack">Вернуться ко входу</button>
+  </form>
+  <form id="accountResetForm" hidden method="post" onsubmit="return false">
+    <label for="newAccountPassword">Новый пароль аккаунта — не менее 12 символов</label>
+    <input id="newAccountPassword" name="new-password" type="password" autocomplete="new-password" minlength="12" required>
+    <label for="repeatAccountPassword">Повторите пароль</label>
+    <input id="repeatAccountPassword" name="confirm-password" type="password" autocomplete="new-password" minlength="12" required>
+    <button type="submit" class="primary">Сохранить новый пароль</button>
+  </form>
+  <p id="accountMessage" class="note" role="status" aria-live="polite"></p>
+  <button type="button" id="resendAccountEmail" hidden>Отправить подтверждение ещё раз</button>
 </dialog>
+<section id="accountBar" class="panel" hidden>
+  <span id="accountGreeting"></span>
+  <button type="button" id="accountSignOut">Выйти</button>
+  <p id="accountStorageNote" class="note"></p>
+</section>
 <section class="vault-unlock hidden" id="vaultUnlock">
 <div class="vault-emblem" aria-hidden="true">🔐</div><h2>Откройте свой дневник</h2>
 <p>Записи защищены паролем на этом устройстве.</p>
-<label for="vaultPassword">Пароль дневника</label><input id="vaultPassword" type="password" autocomplete="current-password" placeholder="Введите пароль">
-<button type="button" id="vaultUnlockButton" class="primary">Продолжить</button><p id="vaultMessage" role="status" class="note"></p><button type="button" id="vaultForgot" class="vault-forgot">Забыли пароль?</button>
+<form id="vaultLoginForm" name="local-diary-unlock" autocomplete="on" method="post" onsubmit="return false">
+<label for="vaultPassword">Пароль дневника</label><input id="vaultPassword" name="password" type="password" autocomplete="current-password" required placeholder="Введите пароль">
+<button type="submit" id="vaultUnlockButton" class="primary">Продолжить</button>
+</form>
+<p class="note">На личном устройстве пароль можно сохранить в менеджере паролей браузера. При следующем открытии он сможет предложить подстановку. Это зависит от настроек браузера.</p>
+<p id="vaultMessage" role="status" class="note"></p><button type="button" id="vaultForgot" class="vault-forgot">Забыли пароль?</button>
 <div id="vaultRecovery" class="vault-recovery hidden">
  <div id="vaultRecoveryAvailable" class="hidden">
   <p class="note"><b>Восстановление по резервному коду</b></p>
@@ -590,20 +618,19 @@ body::before{
 <p class="note">Дневник сохраняет записи в этом браузере и не отправляет их на сервер. Пароль шифрует записи в его хранилище. После ввода пароля дневник открыт для человека с доступом к этой вкладке — завершайте работу кнопкой «Заблокировать дневник». Очистка данных браузера может удалить записи.</p>
 <p id="privacyStatus" class="privacy-status" role="status">Записи пока хранятся без шифрования.</p>
 <div class="actions privacy-main-actions"><button type="button" id="privacyOpen" class="primary">Настроить защиту</button><button type="button" id="privacyLock" class="hidden">Заблокировать дневник</button><button type="button" id="privacyRecoverySetup" class="hidden">Создать или обновить резервный код</button></div>
-<details class="privacy-details"><summary>Как хранятся данные и работает голосовой ввод</summary><div class="inside"><p class="note"><b>Записи:</b> сохраняются в этом браузере. На другом устройстве они не появятся автоматически.</p><p class="note"><b>Голосовой ввод:</b> дневник не записывает аудио. Микрофон клавиатуры может передавать речь сервису производителя устройства или клавиатуры.</p><p class="note"><b>Резервные копии:</b> скачанный JSON не зашифрован. Храните его в надёжном месте.</p><button type="button" id="privacyDelete" class="privacy-delete">Удалить все записи с устройства</button><p class="note">Удаление из дневника не удалит ранее скачанные файлы и резервные копии устройства.</p></div></details>
+<details class="privacy-details"><summary>Как хранятся данные и работает голосовой ввод</summary><div class="inside"><p class="note"><b>Записи:</b> сохраняются в этом браузере. На другом устройстве они не появятся автоматически.</p><p class="note"><b>Голосовой ввод:</b> дневник не записывает аудио. Микрофон клавиатуры может передавать речь сервису производителя устройства или клавиатуры.</p><p class="note"><b>Резервные копии:</b> скачанный JSON не зашифрован. Храните его в надёжном месте.</p><button type="button" id="privacyDelete" class="privacy-delete">Удалить записи текущего дневника</button><p class="note">Удаление из дневника не удалит ранее скачанные файлы и резервные копии устройства.</p></div></details>
 </section><section class="panel"><h2>О доступе</h2><p>Бесплатное тестирование: до 30.11.2026 включительно (МСК).</p><p>В течение тестирования все разделы дневника открыты для проверки.</p><p class="note">С 01.12.2026 редактирование закрывается. Кнопка «Скачать свои записи» останется на экране окончания теста. Сохраните копию заранее. Вход по почте, личные кабинеты и оплата будут настроены отдельно.</p></section></aside></div><div class="foot">Дневник предназначен для самонаблюдения, не заменяет диагностику, лечение или психологическую помощь. Демо-версия: не вводите сведения, которые не готовы хранить в браузере устройства.</div>
-<script src="reliability.js"></script>
-<script src="entry.js?v=cover-2"></script>
+<script src="reliability.js?v=accounts-1"></script>
+<script src="entry.js?v=accounts-1"></script>
 <script>
 'use strict';
 // ВАЖНО: этот HTML — автономный проверочный прототип, не надёжный paywall.
 // Настоящая проверка права доступа и времени должна выполняться на сервере.
 const config={cutoff:Date.parse('2026-12-01T00:00:00+03:00'),personalPayment:'',proPayment:''};
-const storeKey='dnevnik_sostoyaniy_v1',encryptedStoreKey=storeKey+'_encrypted';
+let storeKey='dnevnik_sostoyaniy_v1',encryptedStoreKey=storeKey+'_encrypted';
 let encryptionKey=null,vaultSalt=null,saveQueue=Promise.resolve(),isVaultPresent=false;
-try{isVaultPresent=!!localStorage.getItem(encryptedStoreKey)}catch{}
+// Load a diary only after selecting its owner or the explicit legacy mode.
 let data={};
-if(!isVaultPresent){try{data=readDiaryEntries(JSON.parse(localStorage.getItem(storeKey)||'{}'))}catch{savingFailed=true;loadFailed=true;alert('Не удалось открыть записи. Хранилище оставлено без изменений. Сохранение отключено до восстановления корректной копии или устранения ошибки.')}}
 let date=new Date(),period=7;date.setHours(12,0,0,0);const dayKey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;const key=()=>dayKey(date);const get=()=>data[key()]||(data[key()]={});
 const textEncoder=new TextEncoder(),textDecoder=new TextDecoder();
 function bytesToBase64(bytes){let out='';for(let i=0;i<bytes.length;i+=8192)out+=String.fromCharCode(...bytes.slice(i,i+8192));return btoa(out)}
@@ -742,10 +769,9 @@ document.getElementById('vaultUnlockButton').onclick=async()=>{
  }catch(err){message.textContent='Пароль не подошёл или защищённые данные повреждены.';console.warn('Не удалось открыть защищённый дневник.')}
  finally{btn.disabled=false}
 };
-document.getElementById('vaultPassword').addEventListener('keydown',event=>{if(event.key==='Enter')document.getElementById('vaultUnlockButton').click()});
 document.getElementById('privacyDelete').onclick=async()=>{
- if(!confirm('Удалить ВСЕ записи дневника с этого устройства? Восстановить их без резервной копии будет невозможно.'))return;
- if(!confirm('Подтвердите удаление: удалить все записи и защиту паролем из этого браузера?'))return;
+ if(!confirm('Удалить ВСЕ записи текущего дневника с этого устройства? Восстановить их без резервной копии будет невозможно.'))return;
+ if(!confirm('Подтвердите удаление: удалить записи текущего дневника и его защиту паролем из этого браузера?'))return;
  await saveQueue;localStorage.removeItem(storeKey);localStorage.removeItem(encryptedStoreKey);
  data={};encryptionKey=null;vaultSalt=null;isVaultPresent=false;updatePrivacyUI();render();alert('Записи удалены из хранилища этого браузера. Скачанные копии не затронуты.');
 };
@@ -902,6 +928,13 @@ function closeExpiredTrial(){
 }
 try{rememberStorage()}catch{savingFailed=true;loadFailed=true;saveStatus('Хранилище браузера недоступно. Записи не сохраняются.')}
 protectStorageActions();
+const vaultLoginButton=document.getElementById('vaultUnlockButton');
+const unlockFromForm=vaultLoginButton.onclick;
+vaultLoginButton.onclick=null;
+document.getElementById('vaultLoginForm').addEventListener('submit',event=>{
+ event.preventDefault();
+ if(!vaultLoginButton.disabled)unlockFromForm(event);
+});
 if(!closeExpiredTrial()){
  if(isVaultPresent){document.getElementById('app').classList.add('hidden');document.getElementById('vaultUnlock').classList.remove('hidden');}
  else{render();updatePrivacyUI()}
@@ -909,4 +942,7 @@ if(!closeExpiredTrial()){
 applyResponsiveDiaryCards();
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)closeExpiredTrial()});
 setInterval(closeExpiredTrial,30000);
-</script></body></html>
+</script>
+<script src="vendor/supabase-2.119.1.js"></script>
+<script src="accounts.js?v=accounts-1"></script>
+</body></html>

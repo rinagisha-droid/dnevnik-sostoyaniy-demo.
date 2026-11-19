@@ -3,28 +3,7 @@ const coverForm = coverDialog.querySelector('form');
 const coverPassword = coverForm.elements.password;
 const signupProfile = document.getElementById('signupProfile');
 
-document.querySelectorAll('[data-account-mode]').forEach(button => {
-  button.addEventListener('click', () => {
-    const signingUp = button.dataset.accountMode === 'signup';
-    const title = signingUp ? 'Создать аккаунт' : 'Войти';
-    document.getElementById('accountTitle').textContent = title;
-    document.getElementById('accountSubmit').textContent = title;
-    coverForm.reset();
-    signupProfile.hidden = !signingUp;
-    signupProfile.disabled = !signingUp;
-    coverPassword.autocomplete = signingUp ? 'new-password' : 'current-password';
-    coverDialog.showModal();
-  });
-});
-
-coverForm.addEventListener('submit', event => {
-  event.preventDefault();
-  coverForm.reset();
-  openLocalDiary();
-});
-coverDialog.addEventListener('close', () => coverForm.reset());
-document.getElementById('accountBack').addEventListener('click', () => coverDialog.close());
-document.getElementById('openLocalDiary').addEventListener('click', openLocalDiary);
+document.getElementById('openLocalDiary').addEventListener('click', () => openLegacyDiary());
 
 function openLocalDiary() {
   coverDialog.close();
