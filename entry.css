@@ -24,6 +24,7 @@ body:not([data-cover]) #diaryCover {
 #accountBar { width: calc(100% - 30px); max-width: 1050px; margin: 12px auto; }
 body[data-cover] #accountBar { display: none; }
 #accountBar button { margin-left: 12px; }
+#accountHelp, .account-exit-icon, #accountStorageMobile { display: none; }
 #signupProfile { border: 0; margin: 0; padding: 0; min-width: 0; }
 #signupProfile legend { font-weight: 700; }
 .mobile-date, .mobile-nav-label, .dictation, .dictation-indicator { display: none; }
@@ -74,6 +75,39 @@ body[data-cover] #accountBar { display: none; }
   #diaryCover p { font-size: 14px; }
   #diaryCover .note { font-size: 12px; }
   #accountDialog input { font-size: 16px; }
+  #accountResetForm:not([hidden]) { display: grid; gap: 8px; }
+  #accountResetForm button[type=submit] { margin-top: 8px; }
+
+  body:not([data-cover]) #accountBar:not([hidden]) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 4px;
+    width: calc(100% - 22px);
+    margin: 6px auto;
+    padding: 4px 8px 4px 12px;
+  }
+  #accountGreeting { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 650; }
+  #accountBar button {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    min-height: 44px;
+    padding: 0;
+    margin: 0;
+  }
+  #accountSignOut { grid-column: 3; grid-row: 1; }
+  #accountHelp { grid-column: 2; grid-row: 1; font-weight: 750; }
+  #accountSignOutText, #accountStorageDesktop { display: none; }
+  .account-exit-icon { display: block; width: 21px; height: 21px; }
+  #accountStorageMobile { display: inline; }
+  #accountStorageNote { grid-column: 1 / -1; margin: 2px 4px 8px; }
+  #accountHelp[aria-expanded="false"] + #accountStorageNote { display: none; }
+
+  #app { margin-top: 18px; gap: 16px !important; }
+  #app > .side-menu { grid-area: 1 / 1; top: auto; }
+  #app > main, #app > .aside { grid-area: 2 / 1; }
+  #app:focus, #app [tabindex="-1"]:focus { outline: none; }
 
   .desktop-date { display: none; }
   .mobile-date { display: block; line-height: 1.2; }

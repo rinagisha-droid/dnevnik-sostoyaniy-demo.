@@ -434,8 +434,9 @@ body::before{
  .mood-picker .mood-label{font-size:8px!important}
 }
 </style>
-<link rel="stylesheet" href="entry.css?v=welcome-2">
+<link rel="stylesheet" href="entry.css?v=mobile-polish-1">
 <link rel="icon" href="assets/diary-shortcut.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" type="image/x-icon" sizes="32x32">
 <link rel="icon" href="assets/diary-shortcut-192.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="assets/diary-shortcut-180.png" sizes="180x180">
 <link rel="manifest" href="manifest.webmanifest">
@@ -468,8 +469,9 @@ body::before{
 <symbol id="icon-frequency" viewBox="0 0 48 48"><rect x="3" y="3" width="42" height="42" rx="15" fill="url(#icBlue)" opacity=".12"/><path d="M8 35h6V21H8z" fill="#bfdbfb"/><path d="M19 35h7V13h-7z" fill="#a7bdfa"/><path d="M31 35h8V8h-8z" fill="#84c9cd"/><path d="M6 40h36" stroke="#6994c4" stroke-width="2.5" stroke-linecap="round"/></symbol>
 <symbol id="icon-backup" viewBox="0 0 48 48"><rect x="3" y="3" width="42" height="42" rx="15" fill="url(#icMint)" opacity=".12"/><rect x="8" y="10" width="32" height="30" rx="5" fill="#e9f7f3" stroke="#60b5a2" stroke-width="2.5"/><path d="M24 14v17m-6-6 6 6 6-6M15 35h18" fill="none" stroke="#60b5a2" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg><section id="accountBar" class="panel" hidden>
   <span id="accountGreeting"></span>
-  <button type="button" id="accountSignOut">Выйти</button>
-  <p id="accountStorageNote" class="note"></p>
+  <button type="button" id="accountSignOut" aria-label="Выйти"><span id="accountSignOutText">Выйти</span><svg class="account-exit-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4H5v16h5m-2-8h12m-4-4 4 4-4 4"/></svg></button>
+  <button type="button" id="accountHelp" aria-label="Где хранятся записи" aria-controls="accountStorageNote" aria-expanded="false">?</button>
+  <p id="accountStorageNote" class="note"><span id="accountStorageDesktop"></span><span id="accountStorageMobile"></span></p>
 </section>
 <header class="journal-hero">
 <div class="hero-background" aria-hidden="true"><picture><source media="(max-width:790px)" srcset="assets/diary-mobile-banner-2026.webp?v=mobile-v1"><img src="assets/diary-botanical-real-2026.jpg?v=watercolor-1116-v2" alt=""></picture></div>
@@ -950,5 +952,5 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)closeExpir
 setInterval(closeExpiredTrial,30000);
 </script>
 <script src="vendor/supabase-2.119.1.js"></script>
-<script src="accounts.js?v=returning-1"></script>
+<script src="accounts.js?v=mobile-polish-1"></script>
 </body></html>

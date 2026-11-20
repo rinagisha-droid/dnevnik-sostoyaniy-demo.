@@ -25,6 +25,10 @@ const recoveryAccountForm = document.getElementById('accountRecoveryForm');
 const resetAccountForm = document.getElementById('accountResetForm');
 const rememberAccount = document.getElementById('rememberAccount');
 const accountBar = document.getElementById('accountBar');
+const accountHelp = document.getElementById('accountHelp');
+accountHelp.addEventListener('click', () => {
+  accountHelp.setAttribute('aria-expanded', String(accountHelp.getAttribute('aria-expanded') === 'false'));
+});
 const newVisitorControls = document.querySelectorAll('#diaryCover [data-new-visitor]');
 
 function showReturningAccountCover() {
@@ -101,6 +105,7 @@ function hideAccountDiary() {
   stopDiaryDictation();
   document.body.dataset.cover = '';
   accountBar.hidden = true;
+  accountHelp.setAttribute('aria-expanded', 'false');
 }
 
 async function selectDiaryStorage(owner) {
@@ -158,10 +163,15 @@ function transitionToDiary(owner, user, version = accountIdentityVersion) {
     document.getElementById('accountGreeting').textContent = user
       ? 'Здравствуйте, ' + (user.user_metadata?.given_name || user.email) + '!'
       : 'Локальный дневник этого браузера';
-    document.getElementById('accountSignOut').textContent = user ? 'Выйти' : 'На обложку';
-    document.getElementById('accountStorageNote').textContent = user
+    const exitLabel = user ? 'Выйти' : 'На обложку';
+    document.getElementById('accountSignOutText').textContent = exitLabel;
+    document.getElementById('accountSignOut').setAttribute('aria-label', exitLabel);
+    document.getElementById('accountStorageDesktop').textContent = user
       ? 'Это отдельный дневник аккаунта на этом устройстве. Прежние записи можно скачать в локальном дневнике и восстановить здесь из копии. Пароль локального шифрования может потребоваться отдельно.'
       : 'Прежние записи остаются в этом браузере. Для переноса в аккаунт скачайте копию, войдите и восстановите её в разделе «Мои записи».';
+    document.getElementById('accountStorageMobile').textContent = user
+      ? 'Записи аккаунта хранятся в этом браузере. Копию можно скачать в разделе «Мои записи».'
+      : 'Записи без аккаунта хранятся в этом браузере. Копию можно скачать в разделе «Мои записи».';
     openLocalDiary();
     accountBar.hidden = false;
     window.scrollTo(0, 0);
