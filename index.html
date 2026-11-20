@@ -509,8 +509,10 @@ body::before{
 <dialog class="panel" id="accountDialog" aria-labelledby="accountTitle">
   <button type="button" id="accountBack" aria-label="Закрыть форму">×</button>
   <h2 id="accountTitle"></h2>
-  <p class="note">Подтверждение регистрации и восстановление пароля приходят на вашу почту.</p>
-  <p class="note">Данные профиля и входа обрабатывает Supabase. Текст дневника хранится в вашем браузере. Восстановление пароля аккаунта не меняет отдельный пароль шифрования прежних записей.</p>
+  <div id="accountExplanation" hidden>
+    <p class="note">Подтверждение регистрации и восстановление пароля приходят на вашу почту.</p>
+    <p class="note">Данные профиля и входа обрабатывает Supabase. Текст дневника хранится в вашем браузере. Восстановление пароля аккаунта не меняет отдельный пароль шифрования прежних записей.</p>
+  </div>
   <form id="accountForm" method="post" onsubmit="return false">
     <fieldset id="signupProfile" hidden disabled>
       <legend>Ваш профиль</legend>
@@ -952,5 +954,5 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)closeExpir
 setInterval(closeExpiredTrial,30000);
 </script>
 <script src="vendor/supabase-2.119.1.js"></script>
-<script src="accounts.js?v=login-form-1"></script>
+<script src="accounts.js?v=login-form-2"></script>
 </body></html>

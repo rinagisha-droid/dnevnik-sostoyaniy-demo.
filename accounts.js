@@ -83,6 +83,7 @@ function showAccountForm(mode) {
   recoveryAccountForm.reset();
   resetAccountForm.reset();
   const signingUp = mode === 'signup';
+  document.getElementById('accountExplanation').hidden = mode === 'login';
   signupProfile.hidden = !signingUp;
   signupProfile.disabled = !signingUp;
   coverForm.hidden = !['signup', 'login'].includes(mode);
