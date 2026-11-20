@@ -434,7 +434,12 @@ body::before{
  .mood-picker .mood-label{font-size:8px!important}
 }
 </style>
-<link rel="stylesheet" href="entry.css?v=welcome-2"></head><body data-cover><svg xmlns="http://www.w3.org/2000/svg" class="diary-svg-sprite" aria-hidden="true" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
+<link rel="stylesheet" href="entry.css?v=welcome-2">
+<link rel="icon" href="assets/diary-shortcut.svg" type="image/svg+xml">
+<link rel="icon" href="assets/diary-shortcut-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="assets/diary-shortcut-180.png" sizes="180x180">
+<link rel="manifest" href="manifest.webmanifest">
+</head><body data-cover><svg xmlns="http://www.w3.org/2000/svg" class="diary-svg-sprite" aria-hidden="true" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
 <linearGradient id="icBlue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#77bcf0"/><stop offset="1" stop-color="#386cbf"/></linearGradient>
 <linearGradient id="icGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffda8c"/><stop offset="1" stop-color="#f29d48"/></linearGradient>
 <linearGradient id="icViolet" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b8b3ff"/><stop offset="1" stop-color="#7879d9"/></linearGradient>
@@ -491,13 +496,13 @@ body::before{
   <h2 id="coverTitle">Отмечайте, как проходит ваш день</h2>
   <p>Записывайте ситуации и мысли, смотрите динамику настроения, энергии и стресса.</p>
   <div class="actions">
-    <button type="button" class="primary" data-account-mode="signup">Создать аккаунт</button>
+    <button type="button" class="primary" data-account-mode="signup" data-new-visitor>Создать аккаунт</button>
     <button type="button" data-account-mode="login">Войти</button>
   </div>
-  <p class="note">Создайте аккаунт и подтвердите почту. Записи каждого аккаунта хранятся отдельно в этом браузере. Синхронизация между устройствами пока не подключена.</p>
+  <p class="note" data-new-visitor>Создайте аккаунт и подтвердите почту. Записи каждого аккаунта хранятся отдельно в этом браузере. Синхронизация между устройствами пока не подключена.</p>
   <p id="authStatus" class="note" role="status"></p>
-  <button type="button" id="openLocalDiary" aria-describedby="localDiaryNote">Открыть без аккаунта</button>
-  <p id="localDiaryNote" class="note">Записи без аккаунта сохраняются только в этом браузере.</p>
+  <button type="button" id="openLocalDiary" aria-describedby="localDiaryNote" data-new-visitor>Открыть без аккаунта</button>
+  <p id="localDiaryNote" class="note" data-new-visitor>Записи без аккаунта сохраняются только в этом браузере.</p>
 </section>
 <dialog class="panel" id="accountDialog" aria-labelledby="accountTitle">
   <h2 id="accountTitle"></h2>
@@ -945,5 +950,5 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)closeExpir
 setInterval(closeExpiredTrial,30000);
 </script>
 <script src="vendor/supabase-2.119.1.js"></script>
-<script src="accounts.js?v=welcome-2"></script>
+<script src="accounts.js?v=returning-1"></script>
 </body></html>

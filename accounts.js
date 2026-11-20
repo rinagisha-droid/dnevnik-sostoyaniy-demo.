@@ -4,6 +4,7 @@ const accountProjectUrl = 'https://cdelycouqiparwsqwtxw.supabase.co';
 const accountPublishableKey = 'sb_publishable_dXx41kBBxUDRga532XeHdw_5nt4ftLJ';
 const accountSessionKey = 'diary-auth-cdely-v1';
 const accountPreferenceKey = accountSessionKey + '-remember';
+const knownAccountBrowserKey = accountSessionKey + '-known-browser';
 const accountReturnUrl = 'https://rinagisha-droid.github.io/dnevnik-sostoyaniy-demo./';
 const legacyDiaryKey = 'dnevnik_sostoyaniy_v1';
 let accountClient;
@@ -24,6 +25,29 @@ const recoveryAccountForm = document.getElementById('accountRecoveryForm');
 const resetAccountForm = document.getElementById('accountResetForm');
 const rememberAccount = document.getElementById('rememberAccount');
 const accountBar = document.getElementById('accountBar');
+const newVisitorControls = document.querySelectorAll('#diaryCover [data-new-visitor]');
+
+function showReturningAccountCover() {
+  newVisitorControls.forEach(control => { control.hidden = true; });
+}
+
+function restoreAccountCoverPreference() {
+  try {
+    if (localStorage.getItem(knownAccountBrowserKey) === 'yes'
+        || Object.keys(localStorage).some(key => key.startsWith(legacyDiaryKey + '_account_'))) {
+      showReturningAccountCover();
+    }
+  } catch {
+    // Browser storage can be unavailable in restricted contexts.
+  }
+}
+
+function rememberKnownAccountBrowser() {
+  showReturningAccountCover();
+  try { localStorage.setItem(knownAccountBrowserKey, 'yes'); } catch {}
+}
+
+restoreAccountCoverPreference();
 
 async function accountFetch(url, options = {}) {
   const controller = new AbortController();
@@ -180,6 +204,7 @@ async function acceptAccountSession(session, version) {
   }
   const alreadyOpen = accountOwner === result.user.id && !document.body.hasAttribute('data-cover');
   verifiedAccount = result.user;
+  rememberKnownAccountBrowser();
   if (confirmingAccount) {
     confirmingAccount = false;
     await accountClient.auth.signOut({ scope: 'local' });
@@ -395,6 +420,6 @@ const accountReady = (async () => {
     if (error) throw error;
     if (result.session) await acceptAccountSession(result.session, ++accountIdentityVersion);
   } catch {
-    accountStatus.textContent = 'Сервис аккаунтов недоступен. Прежний локальный дневник можно открыть отдельно.';
+    accountStatus.textContent = 'Сервис аккаунтов недоступен. Проверьте подключение и попробуйте войти снова.';
   }
 })();
