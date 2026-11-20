@@ -70,7 +70,7 @@ function accountError(error) {
   if (error?.code === 'diary_pending') return error.message;
   if (error?.code === 'email_not_confirmed') return 'Подтвердите email по письму. Затем войдите с вашим паролем.';
   if (error?.status === 429) return 'Слишком много попыток. Подождите перед повторной отправкой.';
-  if (error?.code === 'invalid_credentials') return 'Не удалось войти. Проверьте email и пароль.';
+  if (error?.code === 'invalid_credentials') return 'Не удалось войти. Проверьте email и введите текущий пароль вручную: браузер мог подставить старый.';
   if (error?.code === 'user_already_exists') return 'Аккаунт уже существует. Войдите или восстановите пароль.';
   if (error?.code === 'weak_password') return 'Выберите более сложный пароль — не менее 12 символов.';
   if (error?.status >= 500) return 'Сервис не завершил запрос. Если ожидалось письмо, отправка не подтверждена. Попробуйте позже.';
@@ -92,6 +92,8 @@ function showAccountForm(mode) {
   coverPassword.minLength = signingUp ? 12 : 1;
   rememberAccount.checked = localStorage.getItem(accountPreferenceKey) === 'yes';
   rememberAccount.closest('label').hidden = signingUp;
+  document.getElementById('forgotAccount').hidden = signingUp;
+  document.getElementById('accountBack').hidden = mode === 'reset';
   document.getElementById('accountTitle').textContent = {
     signup: 'Создать аккаунт', login: 'Войти', recovery: 'Восстановить доступ', reset: 'Новый пароль аккаунта'
   }[mode];
@@ -256,10 +258,12 @@ document.querySelectorAll('[data-account-mode]').forEach(button => {
   button.addEventListener('click', () => showAccountForm(button.dataset.accountMode));
 });
 document.getElementById('accountBack').addEventListener('click', () => coverDialog.close());
-document.getElementById('forgotAccount').addEventListener('click', () => {
+document.getElementById('forgotAccount').addEventListener('click', event => {
+  event.preventDefault();
   const email = coverForm.elements.email.value;
   showAccountForm('recovery');
   document.getElementById('recoveryAccountEmail').value = email;
+  document.getElementById('recoveryAccountEmail').focus();
 });
 document.getElementById('recoveryAccountBack').addEventListener('click', () => showAccountForm('login'));
 coverDialog.addEventListener('close', () => {

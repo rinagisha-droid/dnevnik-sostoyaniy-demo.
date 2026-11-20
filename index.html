@@ -434,7 +434,7 @@ body::before{
  .mood-picker .mood-label{font-size:8px!important}
 }
 </style>
-<link rel="stylesheet" href="entry.css?v=mobile-polish-1">
+<link rel="stylesheet" href="entry.css?v=login-form-1">
 <link rel="icon" href="assets/diary-shortcut.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" type="image/x-icon" sizes="32x32">
 <link rel="icon" href="assets/diary-shortcut-192.png" type="image/png" sizes="192x192">
@@ -507,6 +507,7 @@ body::before{
   <p id="localDiaryNote" class="note" data-new-visitor>Записи без аккаунта сохраняются только в этом браузере.</p>
 </section>
 <dialog class="panel" id="accountDialog" aria-labelledby="accountTitle">
+  <button type="button" id="accountBack" aria-label="Закрыть форму">×</button>
   <h2 id="accountTitle"></h2>
   <p class="note">Подтверждение регистрации и восстановление пароля приходят на вашу почту.</p>
   <p class="note">Данные профиля и входа обрабатывает Supabase. Текст дневника хранится в вашем браузере. Восстановление пароля аккаунта не меняет отдельный пароль шифрования прежних записей.</p>
@@ -523,8 +524,7 @@ body::before{
     <label class="remember-choice"><input id="rememberAccount" type="checkbox"> Это моё устройство — сохранять вход</label>
     <div class="actions">
       <button type="submit" class="primary" id="accountSubmit">Войти</button>
-      <button type="button" id="accountBack">На обложку</button>
-      <button type="button" id="forgotAccount">Забыли пароль?</button>
+      <a id="forgotAccount" href="#accountRecoveryForm">Забыли пароль?</a>
     </div>
   </form>
   <form id="accountRecoveryForm" hidden method="post" onsubmit="return false">
@@ -952,5 +952,5 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)closeExpir
 setInterval(closeExpiredTrial,30000);
 </script>
 <script src="vendor/supabase-2.119.1.js"></script>
-<script src="accounts.js?v=mobile-polish-1"></script>
+<script src="accounts.js?v=login-form-1"></script>
 </body></html>
