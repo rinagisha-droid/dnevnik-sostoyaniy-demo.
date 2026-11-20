@@ -140,6 +140,7 @@ function transitionToDiary(owner, user, version = accountIdentityVersion) {
       : 'Прежние записи остаются в этом браузере. Для переноса в аккаунт скачайте копию, войдите и восстановите её в разделе «Мои записи».';
     openLocalDiary();
     accountBar.hidden = false;
+    window.scrollTo(0, 0);
   });
   return accountTransition;
 }

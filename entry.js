@@ -1,3 +1,6 @@
+// Open the diary from its beginning rather than restoring an old scroll offset.
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
 const coverDialog = document.getElementById('accountDialog');
 const coverForm = coverDialog.querySelector('form');
 const coverPassword = coverForm.elements.password;
@@ -14,7 +17,8 @@ function openLocalDiary() {
     .map(id => document.getElementById(id))
     .find(element => !element.classList.contains('hidden'));
   visibleScreen.tabIndex = -1;
-  visibleScreen.focus();
+  visibleScreen.focus({preventScroll: true});
+  window.scrollTo(0, 0);
 }
 
 const sectionBreakpoint = matchMedia('(max-width: 790px)');

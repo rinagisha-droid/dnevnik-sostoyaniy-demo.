@@ -21,7 +21,7 @@ body:not([data-cover]) #diaryCover {
 #accountDialog [hidden], #accountBar[hidden] { display: none !important; }
 #accountDialog .remember-choice { display: flex; gap: 8px; align-items: start; font-size: 14px; margin: 12px 0; }
 #accountDialog input[type=checkbox] { width: auto; margin-top: 4px; }
-#accountBar { max-width: 1050px; margin: 12px auto; }
+#accountBar { width: calc(100% - 30px); max-width: 1050px; margin: 12px auto; }
 body[data-cover] #accountBar { display: none; }
 #accountBar button { margin-left: 12px; }
 #signupProfile { border: 0; margin: 0; padding: 0; min-width: 0; }

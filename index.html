@@ -434,7 +434,7 @@ body::before{
  .mood-picker .mood-label{font-size:8px!important}
 }
 </style>
-<link rel="stylesheet" href="entry.css?v=accounts-1"></head><body data-cover><svg xmlns="http://www.w3.org/2000/svg" class="diary-svg-sprite" aria-hidden="true" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
+<link rel="stylesheet" href="entry.css?v=welcome-2"></head><body data-cover><svg xmlns="http://www.w3.org/2000/svg" class="diary-svg-sprite" aria-hidden="true" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden"><defs>
 <linearGradient id="icBlue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#77bcf0"/><stop offset="1" stop-color="#386cbf"/></linearGradient>
 <linearGradient id="icGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffda8c"/><stop offset="1" stop-color="#f29d48"/></linearGradient>
 <linearGradient id="icViolet" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b8b3ff"/><stop offset="1" stop-color="#7879d9"/></linearGradient>
@@ -461,7 +461,12 @@ body::before{
 <symbol id="icon-summary" viewBox="0 0 48 48"><rect x="3" y="3" width="42" height="42" rx="15" fill="url(#icViolet)" opacity=".12"/><rect x="10" y="7" width="28" height="35" rx="5" fill="#f0f2ff" stroke="#8482d4" stroke-width="2.5"/><path d="M17 16h13M17 23h9M17 30h13" stroke="#a4a5df" stroke-width="2.5" stroke-linecap="round"/><path d="m34 28 3 3 6-7" stroke="#48b79d" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 <symbol id="icon-therapist" viewBox="0 0 48 48"><rect x="3" y="3" width="42" height="42" rx="15" fill="url(#icPink)" opacity=".12"/><path d="M7 20a12 12 0 0 1 12-12h10a12 12 0 0 1 0 24H20l-9 7 1-10q-5-3-5-9Z" fill="#e5efff" stroke="#6a94d4" stroke-width="2.6"/><path d="M17 19h14M17 25h10" stroke="#8db2df" stroke-width="2.3" stroke-linecap="round"/><circle cx="37" cy="35" r="7" fill="#f5d4e4" stroke="#e08aaf" stroke-width="1.8"/><path d="M34 35h6M37 32v6" stroke="#be6e95" stroke-width="2" stroke-linecap="round"/></symbol>
 <symbol id="icon-frequency" viewBox="0 0 48 48"><rect x="3" y="3" width="42" height="42" rx="15" fill="url(#icBlue)" opacity=".12"/><path d="M8 35h6V21H8z" fill="#bfdbfb"/><path d="M19 35h7V13h-7z" fill="#a7bdfa"/><path d="M31 35h8V8h-8z" fill="#84c9cd"/><path d="M6 40h36" stroke="#6994c4" stroke-width="2.5" stroke-linecap="round"/></symbol>
-<symbol id="icon-backup" viewBox="0 0 48 48"><rect x="3" y="3" width="42" height="42" rx="15" fill="url(#icMint)" opacity=".12"/><rect x="8" y="10" width="32" height="30" rx="5" fill="#e9f7f3" stroke="#60b5a2" stroke-width="2.5"/><path d="M24 14v17m-6-6 6 6 6-6M15 35h18" fill="none" stroke="#60b5a2" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg><header class="journal-hero">
+<symbol id="icon-backup" viewBox="0 0 48 48"><rect x="3" y="3" width="42" height="42" rx="15" fill="url(#icMint)" opacity=".12"/><rect x="8" y="10" width="32" height="30" rx="5" fill="#e9f7f3" stroke="#60b5a2" stroke-width="2.5"/><path d="M24 14v17m-6-6 6 6 6-6M15 35h18" fill="none" stroke="#60b5a2" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg><section id="accountBar" class="panel" hidden>
+  <span id="accountGreeting"></span>
+  <button type="button" id="accountSignOut">Выйти</button>
+  <p id="accountStorageNote" class="note"></p>
+</section>
+<header class="journal-hero">
 <div class="hero-background" aria-hidden="true"><picture><source media="(max-width:790px)" srcset="assets/diary-mobile-banner-2026.webp?v=mobile-v1"><img src="assets/diary-botanical-real-2026.jpg?v=watercolor-1116-v2" alt=""></picture></div>
 <div class="hero-content"><div class="journal-logo journal-notebook-logo" aria-hidden="true">
 <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg" focusable="false">
@@ -491,7 +496,8 @@ body::before{
   </div>
   <p class="note">Создайте аккаунт и подтвердите почту. Записи каждого аккаунта хранятся отдельно в этом браузере. Синхронизация между устройствами пока не подключена.</p>
   <p id="authStatus" class="note" role="status"></p>
-  <button type="button" id="openLocalDiary">Открыть локальный дневник</button>
+  <button type="button" id="openLocalDiary" aria-describedby="localDiaryNote">Открыть без аккаунта</button>
+  <p id="localDiaryNote" class="note">Записи без аккаунта сохраняются только в этом браузере.</p>
 </section>
 <dialog class="panel" id="accountDialog" aria-labelledby="accountTitle">
   <h2 id="accountTitle"></h2>
@@ -508,7 +514,6 @@ body::before{
     <div class="field"><label for="accountEmail">Логин (email)</label><input id="accountEmail" name="email" type="email" autocomplete="username" required></div>
     <div class="field"><label for="accountPassword">Пароль</label><input id="accountPassword" name="password" type="password" placeholder="••••••••" required></div>
     <label class="remember-choice"><input id="rememberAccount" type="checkbox"> Это моё устройство — сохранять вход</label>
-    <p class="note">Браузер может предложить сохранить пароль. На общем устройстве завершайте работу кнопкой «Выйти».</p>
     <div class="actions">
       <button type="submit" class="primary" id="accountSubmit">Войти</button>
       <button type="button" id="accountBack">На обложку</button>
@@ -531,11 +536,7 @@ body::before{
   <p id="accountMessage" class="note" role="status" aria-live="polite"></p>
   <button type="button" id="resendAccountEmail" hidden>Отправить подтверждение ещё раз</button>
 </dialog>
-<section id="accountBar" class="panel" hidden>
-  <span id="accountGreeting"></span>
-  <button type="button" id="accountSignOut">Выйти</button>
-  <p id="accountStorageNote" class="note"></p>
-</section>
+
 <section class="vault-unlock hidden" id="vaultUnlock">
 <div class="vault-emblem" aria-hidden="true">🔐</div><h2>Откройте свой дневник</h2>
 <p>Записи защищены паролем на этом устройстве.</p>
@@ -621,7 +622,7 @@ body::before{
 <details class="privacy-details"><summary>Как хранятся данные и работает голосовой ввод</summary><div class="inside"><p class="note"><b>Записи:</b> сохраняются в этом браузере. На другом устройстве они не появятся автоматически.</p><p class="note"><b>Голосовой ввод:</b> дневник не записывает аудио. Микрофон клавиатуры может передавать речь сервису производителя устройства или клавиатуры.</p><p class="note"><b>Резервные копии:</b> скачанный JSON не зашифрован. Храните его в надёжном месте.</p><button type="button" id="privacyDelete" class="privacy-delete">Удалить записи текущего дневника</button><p class="note">Удаление из дневника не удалит ранее скачанные файлы и резервные копии устройства.</p></div></details>
 </section><section class="panel"><h2>О доступе</h2><p>Бесплатное тестирование: до 30.11.2026 включительно (МСК).</p><p>В течение тестирования все разделы дневника открыты для проверки.</p><p class="note">С 01.12.2026 редактирование закрывается. Кнопка «Скачать свои записи» останется на экране окончания теста. Сохраните копию заранее. Вход по почте, личные кабинеты и оплата будут настроены отдельно.</p></section></aside></div><div class="foot">Дневник предназначен для самонаблюдения, не заменяет диагностику, лечение или психологическую помощь. Демо-версия: не вводите сведения, которые не готовы хранить в браузере устройства.</div>
 <script src="reliability.js?v=accounts-1"></script>
-<script src="entry.js?v=accounts-1"></script>
+<script src="entry.js?v=welcome-2"></script>
 <script>
 'use strict';
 // ВАЖНО: этот HTML — автономный проверочный прототип, не надёжный paywall.
@@ -944,5 +945,5 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)closeExpir
 setInterval(closeExpiredTrial,30000);
 </script>
 <script src="vendor/supabase-2.119.1.js"></script>
-<script src="accounts.js?v=accounts-1"></script>
+<script src="accounts.js?v=welcome-2"></script>
 </body></html>
