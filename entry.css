@@ -196,3 +196,10 @@ body[data-cover] #accountBar { display: none; }
 .records-secondary .action-link { border: 0; border-radius: 4px; background: transparent; padding: 6px 0; color: #325b7a; font-size: 13px; text-decoration: underline; text-underline-offset: 3px; text-align: left; }
 .records-secondary .action-link:hover { color: #1c4770; }
 .records-secondary .action-link:focus-visible { outline: 2px solid #397dbb; outline-offset: 3px; }
+.analytics-notice { width: calc(100% - 30px); max-width: 1050px; margin: 16px auto; }
+.analytics-notice[hidden] { display: none !important; }
+.analytics-notice p { font-size: 14px; line-height: 1.55; }
+.analytics-notice .actions { margin-top: 12px; }
+.analytics-notice .actions button { flex: 1 1 170px; }
+.analytics-settings { margin: 8px 0 12px; border: 0; background: transparent; padding: 6px 0; text-decoration: underline; text-underline-offset: 3px; font-size: 13px; color: #325b7a; }
+.analytics-settings:focus-visible { outline: 2px solid #397dbb; outline-offset: 3px; }
