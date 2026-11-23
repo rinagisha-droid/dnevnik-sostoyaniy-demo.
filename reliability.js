@@ -276,9 +276,19 @@ function renderEmotionSummary() {
   document.getElementById('insights').innerHTML = (insights.length ? insights : ['Когда появятся записи, здесь будут наблюдения по отмеченным эмоциям и заполненным оценкам.']).map(text => '<li>' + text + '</li>').join('');
 }
 
+const diaryChart = document.getElementById('chart');
+new ResizeObserver(() => drawDiaryChart()).observe(diaryChart);
+
 function drawDiaryChart() {
-  const canvas = document.getElementById('chart');
+  const canvas = diaryChart;
+  const width = canvas.clientWidth;
+  const height = canvas.clientHeight;
+  if (!width || !height) return;
+  const ratio = window.devicePixelRatio || 1;
+  canvas.width = Math.round(width * ratio);
+  canvas.height = Math.round(height * ratio);
   const context = canvas.getContext('2d');
+  context.setTransform(ratio, 0, 0, ratio, 0, 0);
   const start = new Date(date);
   start.setDate(start.getDate() - period + 1);
   const rows = Array.from({ length: period }, (_, index) => {
@@ -286,51 +296,64 @@ function drawDiaryChart() {
     day.setDate(start.getDate() + index);
     return { day: dayKey(day), values: dailyScores(data[dayKey(day)]), index };
   });
-  context.clearRect(0, 0, 290, 170);
-  context.font = '10px system-ui';
+  const right = width - 8;
+  const bottom = height - 25;
+  const xAt = index => 24 + index * (right - 24) / Math.max(1, period - 1);
+  const yAt = value => bottom - value * (bottom - 12) / 10;
+  context.font = '11px system-ui';
   for (let value = 0; value <= 10; value += 2) {
-    const y = 130 - value * 11;
+    const y = yAt(value);
     context.strokeStyle = '#e0e9f3';
     context.beginPath();
     context.moveTo(24, y);
-    context.lineTo(282, y);
+    context.lineTo(right, y);
     context.stroke();
     context.fillStyle = '#61768e';
     context.fillText(String(value), 4, y + 3);
   }
-  for (const [metric, color] of Object.entries({ mood: '#2a84d2', energy: '#9470d6', stress: '#19a69c' })) {
-    let connected = false;
+  for (const [metric, color, dash, thickness] of [
+    ['energy', '#7952b3', [7, 3], 2],
+    ['stress', '#16766f', [2, 3], 2],
+    ['mood', '#216bb0', [], 3]
+  ]) {
+    let previous = null;
     context.strokeStyle = color;
     context.fillStyle = color;
-    context.lineWidth = 2.5;
+    context.lineWidth = thickness;
+    context.lineCap = 'round';
+    context.setLineDash(dash);
     context.beginPath();
     for (const row of rows) {
       const value = row.values[metric];
-      if (value === null) { connected = false; continue; }
-      const x = 24 + row.index * 258 / Math.max(1, period - 1);
-      const y = 130 - value * 11;
-      if (connected) context.lineTo(x, y);
-      else context.moveTo(x, y);
-      connected = true;
+      if (value === null) { previous = null; continue; }
+      const x = xAt(row.index);
+      const y = yAt(value);
+      if (previous) {
+        // Keep the curve between the two recorded scores.
+        const middle = (previous.x + x) / 2;
+        context.bezierCurveTo(middle, previous.y, middle, y, x, y);
+      } else {
+        context.moveTo(x, y);
+      }
+      previous = { x, y };
     }
     context.stroke();
     for (const row of rows) {
       if (row.values[metric] === null) continue;
       context.beginPath();
-      context.arc(24 + row.index * 258 / Math.max(1, period - 1), 130 - row.values[metric] * 11, 2.3, 0, Math.PI * 2);
+      context.arc(xAt(row.index), yAt(row.values[metric]), metric === 'mood' ? 2.8 : 2, 0, Math.PI * 2);
       context.fill();
     }
   }
   context.fillStyle = '#56718b';
-  context.fillText(rows[0].day.slice(5).split('-').reverse().join('.'), 24, 145);
+  context.fillText(rows[0].day.slice(5).split('-').reverse().join('.'), 24, height - 6);
   context.textAlign = 'right';
-  context.fillText(rows[rows.length - 1].day.slice(5).split('-').reverse().join('.'), 282, 145);
-  context.textAlign = 'left';
-  for (const [text, x, color] of [['● Настроение', 20, '#2a84d2'], ['● Энергия', 110, '#9470d6'], ['● Стресс', 190, '#19a69c']]) {
-    context.fillStyle = color;
-    context.fillText(text, x, 163);
-  }
+  context.fillText(rows[rows.length - 1].day.slice(5).split('-').reverse().join('.'), right, height - 6);
   const filled = rows.filter(row => Object.values(row.values).some(value => value !== null));
+  document.getElementById('chartEmpty').hidden = filled.length > 0;
+  for (const button of document.querySelectorAll('#dynamics [data-period]')) {
+    button.setAttribute('aria-pressed', String(Number(button.dataset.period) === period));
+  }
   const format = value => value === null ? '—' : value.toLocaleString('ru-RU', { maximumFractionDigits: 2 });
   document.getElementById('chartValues').innerHTML = filled.length ? '<table><caption>Средние оценки за день, от 0 до 10</caption><thead><tr><th>Дата</th><th>Настр.</th><th>Энергия</th><th>Стресс</th></tr></thead><tbody>' +
     filled.map(row => '<tr><th>' + row.day.split('-').reverse().join('.') + '</th>' + ['mood', 'energy', 'stress'].map(metric => '<td>' + format(row.values[metric]) + '</td>').join('') + '</tr>').join('') +
