@@ -191,3 +191,8 @@ body[data-cover] #accountBar { display: none; }
 #wordReportDialog .actions { margin-top: 16px; }
 .project-owner { max-width: 1050px; margin: 24px auto; padding: 16px; text-align: center; font-size: 12px; color: #64758b; overflow-wrap: anywhere; }
 .project-owner a { color: #325b7a; }
+.records-actions > .primary { width: 100%; }
+.records-secondary { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 12px 0; }
+.records-secondary .action-link { border: 0; border-radius: 4px; background: transparent; padding: 6px 0; color: #325b7a; font-size: 13px; text-decoration: underline; text-underline-offset: 3px; text-align: left; }
+.records-secondary .action-link:hover { color: #1c4770; }
+.records-secondary .action-link:focus-visible { outline: 2px solid #397dbb; outline-offset: 3px; }
