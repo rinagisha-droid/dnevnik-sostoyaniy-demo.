@@ -618,6 +618,8 @@ body::before{
 <h2>Бесплатное тестирование завершено</h2>
 <p>С 1 января 2027 года дневник доступен по оплаченному тарифу.</p>
 <p id="paidLockMessage">Войдите в зарегистрированный аккаунт с подтверждённой электронной почтой. После проверки оплаты дневник откроется на приобретённый срок.</p>
+<p id="diaryTimeStatus" class="note" role="status">Проверяем срок доступа через сервер…</p>
+<button type="button" id="retryDiaryTime">Повторить проверку времени</button>
 <p class="note">Если доступ уже оплачен, используйте ту же электронную почту, которую указали при покупке. Покупки через Prodamus активируются только после подтверждения платежа.</p>
 <button type="button" id="lockAccountLogin" class="primary">Войти в аккаунт</button>
 <p class="note access-preview-link"><a href="access-2027.html">Посмотреть тарифы и условия доступа на 2027 год</a></p>
@@ -664,8 +666,9 @@ body::before{
 <script src="entry.js?v=welcome-2"></script>
 <script>
 'use strict';
-// ВАЖНО: этот HTML — автономный проверочный прототип, не надёжный paywall.
-// Настоящая проверка права доступа и времени должна выполняться на сервере.
+// Публичный HTML НЕ является надёжным платным paywall: код доступен открыто.
+// Время тестирования берём из серверного ответа (monotonic timer), а не из часов устройства.
+// Для настоящей коммерческой защиты код платных функций необходимо перенести с GitHub Pages за серверный контроль доступа.
 const config={cutoff:Date.parse('2027-01-01T00:00:00+03:00'),personalPayment:'',proPayment:''};
 let storeKey='dnevnik_sostoyaniy_v1',encryptedStoreKey=storeKey+'_encrypted';
 let encryptionKey=null,vaultSalt=null,saveQueue=Promise.resolve(),isVaultPresent=false;
@@ -960,7 +963,8 @@ document.getElementById('importFile').onchange=restoreDiary;
 function openPayment(kind){let url=kind==='personal'?config.personalPayment:config.proPayment;if(url&&/^https:\/\//.test(url))window.open(url,'_blank','noopener,noreferrer');else alert('Ссылка оплаты ещё не подключена. Её необходимо создать в Prodamus и проверить.')} 
 function closeExpiredTrial(){
  const lock=document.getElementById('lock'),app=document.getElementById('app'),vault=document.getElementById('vaultUnlock');
- if(Date.now()<config.cutoff){lock.classList.add('hidden');return false;}
+ const trialActive=typeof diaryTrialActive==='function' && diaryTrialActive();
+ if(trialActive){lock.classList.add('hidden');return false;}
  const paid=typeof diaryPaidActive==='function' && diaryPaidActive();
  if(paid){
    lock.classList.add('hidden');
