@@ -4,8 +4,15 @@
   var counterId = 114624117;
   var consentKey = 'diary-analytics-consent-v1';
   var canonicalUrl = 'https://rinagisha-droid.github.io/dnevnik-sostoyaniy-demo./';
-  // Capture before the account code can remove a confirmation token from the URL.
-  var sensitiveUrl = Boolean(window.location.search || window.location.hash);
+  // Block pageview tracking on authentication links; harmless marketing
+  // UTM parameters do not contain tokens and are never sent to Metrica:
+  // the counter uses the clean canonicalUrl.
+  // Capture this before the account script processes the confirmation token.
+  var publicQuery = new URLSearchParams(window.location.search);
+  var safeMarketingQuery = Array.from(publicQuery.keys()).every(function (key) {
+    return /^(utm_[a-z0-9_]+|yclid|gclid|fbclid)$/i.test(key);
+  });
+  var sensitiveUrl = Boolean(window.location.hash) || !safeMarketingQuery;
   var choice = null;
   var memoryOnly = false;
   var phase = 'off';
