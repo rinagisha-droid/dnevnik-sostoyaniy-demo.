@@ -964,7 +964,12 @@ function openPayment(kind){let url=kind==='personal'?config.personalPayment:conf
 function closeExpiredTrial(){
  const lock=document.getElementById('lock'),app=document.getElementById('app'),vault=document.getElementById('vaultUnlock');
  const trialActive=typeof diaryTrialActive==='function' && diaryTrialActive();
- if(trialActive){lock.classList.add('hidden');return false;}
+ if(trialActive){
+   lock.classList.add('hidden');
+   if(isVaultPresent && !encryptionKey){app.classList.add('hidden');vault.classList.remove('hidden');}
+   else{vault.classList.add('hidden');app.classList.remove('hidden');}
+   return false;
+ }
  const paid=typeof diaryPaidActive==='function' && diaryPaidActive();
  if(paid){
    lock.classList.add('hidden');
