@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#edf6f2">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Возвращение после оплаты — Дневник состояний и настроений</title>
+<meta name="description" content="Как проверить подтверждение оплаты и открыть доступ к дневнику состояний и настроений.">
+<link rel="icon" href="assets/diary-shortcut.svg" type="image/svg+xml">
+<style>
+:root{color-scheme:light;font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#29465c;background:#f3f8f8}
+*{box-sizing:border-box}body{margin:0;min-width:300px}
+.page{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:42px 15px 25px;position:relative;overflow:hidden}
+.page::before{content:"";position:fixed;inset:0;background:linear-gradient(120deg,rgba(255,252,250,.95),rgba(248,253,252,.76)),url("assets/diary-botanical-real-2026.jpg");background-size:cover;background-position:center;opacity:.48;pointer-events:none}
+.card{position:relative;width:min(630px,100%);background:#fffcf8ee;border:1px solid #d8e8e3;border-radius:24px;box-shadow:0 14px 40px #335d5f14;padding:clamp(23px,4vw,39px)}
+.stamp{width:56px;height:56px;display:grid;place-items:center;font-size:29px;border-radius:19px;background:#e7f5ee;border:1px solid #cce5d9;margin-bottom:17px}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:750;color:#3b857b}
+h1{color:#284d64;line-height:1.18;font-size:clamp(25px,4.4vw,34px);letter-spacing:-.02em;margin:9px 0 15px}
+.lead{line-height:1.55;font-size:16px;margin:0 0 22px;color:#425f6e}
+.steps{margin:0 0 23px;padding:0;list-style:none;counter-reset:instruction;display:grid;gap:11px}
+.steps li{counter-increment:instruction;position:relative;padding-left:43px;line-height:1.52;font-size:14px}
+.steps li::before{content:counter(instruction);position:absolute;left:0;top:-1px;width:29px;height:29px;border:1px solid #c8e3d8;background:#e9f6f1;color:#326e64;border-radius:50%;font-size:14px;font-weight:750;display:grid;place-items:center}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin:19px 0}
+.btn{border:1px solid #b6cfca;text-decoration:none;min-height:44px;padding:10px 16px;border-radius:11px;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:750;color:#346a69;background:#f5fcfa}
+.btn.primary{color:white;background:#347c75;border-color:#347c75}
+.btn:hover{filter:brightness(.96)}
+.btn:focus-visible,a:focus-visible{outline:3px solid #6dadad;outline-offset:3px}
+.note{font-size:13px;line-height:1.55;border-radius:12px;padding:13px 15px;background:#f4f8fa;color:#557381}
+.contact{color:#526d7a;font-size:13px;line-height:1.6;margin:18px 0 0}
+.contact a,.footer a{color:#256f75;text-underline-offset:3px;overflow-wrap:anywhere}
+.footer{position:relative;text-align:center;padding:13px;font-size:12px;color:#72838c;max-width:670px}
+@media(max-width:550px){.actions{display:grid}.btn{width:100%}.page{justify-content:flex-start;padding-top:45px}}
+</style>
+</head>
+<body>
+<main class="page">
+<article class="card" aria-labelledby="heading">
+<div class="stamp" aria-hidden="true">🌿</div>
+<span class="eyebrow">Дневник состояний и настроений</span>
+<h1 id="heading">Вы вернулись с платёжной страницы</h1>
+<p class="lead">Спасибо за интерес к дневнику! Если оплата завершилась успешно, Prodamus отправит подтверждение на электронную почту. Сам переход на эту страницу ещё не означает, что платёж подтверждён.</p>
+<ol class="steps">
+<li>Проверьте письмо от Prodamus и сохраните подтверждение оплаты.</li>
+<li>Откройте дневник и войдите в личный аккаунт с <strong>тем же email, который указали при оплате</strong>. Если аккаунта ещё нет, зарегистрируйтесь и подтвердите почту.</li>
+<li>В панели аккаунта нажмите <strong>«Проверить доступ»</strong>. Сервер проверит подтверждённую покупку и срок действия тарифа.</li>
+</ol>
+<p class="note">Для покупок по декабрьской предпродаже доступ начнётся <strong>1 января 2027 года</strong>. До конца декабря дневник доступен бесплатно. Если оплата была только что, уведомление может поступить не сразу; попробуйте проверить доступ повторно немного позже.</p>
+<div class="actions">
+<a class="btn primary" href="./">Открыть дневник</a>
+<a class="btn" href="access-2027.html">Условия доступа на 2027 год</a>
+</div>
+<p class="contact">Если оплата прошла, а информация о доступе не появилась, напишите на <a href="mailto:regina.denisova.psy@mail.ru?subject=%D0%94%D0%BD%D0%B5%D0%B2%D0%BD%D0%B8%D0%BA%3A%20%D0%BD%D0%B5%20%D0%BE%D1%82%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%B8%D0%BB%D1%81%D1%8F%20%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF">regina.denisova.psy@mail.ru</a>. Не присылайте пароль, CVV и полный номер банковской карты.</p>
+</article>
+<footer class="footer">Регина Денисова · «Дневник состояний и настроений». Эта страница не обрабатывает платежи, не запрашивает банковские данные и не подтверждает оплату самостоятельно.</footer>
+</main>
+</body>
+</html>
