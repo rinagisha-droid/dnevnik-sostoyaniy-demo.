@@ -203,3 +203,18 @@ body[data-cover] #accountBar { display: none; }
 .analytics-notice .actions button { flex: 1 1 170px; }
 .analytics-settings { margin: 8px 0 12px; border: 0; background: transparent; padding: 6px 0; text-decoration: underline; text-underline-offset: 3px; font-size: 13px; color: #325b7a; }
 .analytics-settings:focus-visible { outline: 2px solid #397dbb; outline-offset: 3px; }
+
+
+/* Paid access is displayed inside the existing account panel. */
+#accountBar .paid-access-line {display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;width:100%;padding-top:9px;margin-top:8px;border-top:1px solid #e0e9ed}
+#accountAccessStatus {font-size:13px;line-height:1.45;color:#346b63;font-weight:600;flex:1 1 250px;overflow-wrap:anywhere}
+#accountBar .paid-access-line button {width:auto;min-height:36px;margin:0;padding:7px 12px;font-size:12px;border:1px solid #b6d6cd;background:#f0f8f6;color:#315e61}
+#accountBar .paid-access-line button[hidden] {display:none!important}
+#lock button {margin:4px 5px}
+@media(max-width:790px){
+  body:not([data-cover]) #accountBar:not([hidden]) .paid-access-line {grid-column:1/-1;grid-row:2;display:flex;align-items:center;flex-wrap:wrap;padding:8px 3px 2px;margin:2px 0 0}
+  #accountBar .paid-access-line button {display:inline-flex!important;min-width:128px!important;width:auto!important;min-height:36px!important;margin:0!important;padding:7px 10px!important}
+  #accountAccessStatus {font-size:12px;flex:1 1 190px}
+  #lock {margin:12px 10px!important;padding:18px 13px!important}
+  #lock button {width:100%;min-height:42px;margin:5px 0}
+}
