@@ -515,14 +515,14 @@ body::before{
   <h2 id="coverTitle">Отмечайте, как проходит ваш день</h2>
   <p>Записывайте ситуации и мысли, смотрите динамику настроения, энергии и стресса.</p>
   <div class="actions">
-    <button type="button" class="primary" data-account-mode="signup" data-new-visitor>Создать аккаунт</button>
-    <button type="button" data-account-mode="login">Войти</button>
+    <button type="button" class="primary" id="openLocalDiary" aria-describedby="localDiaryNote">Открыть дневник бесплатно</button>
+    <button type="button" data-account-mode="login">Войти в существующий аккаунт</button>
   </div>
-  <p class="note" data-new-visitor>Создайте аккаунт и подтвердите почту. Записи каждого аккаунта хранятся отдельно в этом браузере. Синхронизация между устройствами пока не подключена.</p>
+  <p id="localDiaryNote" class="note">Без регистрации и обязательной электронной почты. Записи сохраняются только в этом браузере; для переноса или защиты от потери используйте резервную копию в разделе «Мои записи».</p>
+  <p class="note">Создание новых аккаунтов временно приостановлено. Если вы уже регистрировались, используйте прежний вход.</p>
   <p id="authStatus" class="note" role="status"></p>
-  <button type="button" id="openLocalDiary" aria-describedby="localDiaryNote" data-new-visitor>Открыть без аккаунта</button>
-  <p id="localDiaryNote" class="note" data-new-visitor>Записи без аккаунта сохраняются только в этом браузере.</p>
-  <p class="note access-preview-link">Бесплатно до 31 декабря 2026 года. <a href="access-2027.html">Какие условия будут в 2027 году?</a></p>
+  <p class="note">Бесплатное тестирование открыто до 31 декабря 2026 года включительно (МСК).</p>
+  <p class="note access-preview-link" hidden>С 15 декабря — условия доступа на 2027 год: <a href="access-2027.html">посмотреть тарифы</a>.</p>
 </section>
 <dialog class="panel" id="accountDialog" aria-labelledby="accountTitle">
   <button type="button" id="accountBack" aria-label="Закрыть форму">×</button>
@@ -1020,4 +1020,14 @@ function openWordReport() {
 <script src="word-export.js?v=weekly-1"></script>
 <footer class="project-owner" aria-label="Владелец проекта"><p>Денисова Регина Ринатовна · самозанятая</p><p>Обращения по дневнику: <a href="mailto:regina.denisova.psy@mail.ru">regina.denisova.psy@mail.ru</a></p></footer>
 
+<script>
+(function() {
+  // Only the marketing link appears on 15 December; payments remain disabled.
+  const launch = Date.parse('2026-12-15T00:00:00+03:00');
+  const showLinks = () => document.querySelectorAll('.access-preview-link')
+    .forEach(element => { element.hidden = Date.now() < launch; });
+  showLinks();
+  setInterval(showLinks, 60000);
+})();
+</script>
 </body></html>
