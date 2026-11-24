@@ -76,7 +76,12 @@ function addMonthsUtc(from, months) {
 function parseDate(raw) {
   const s = asText(raw).trim();
   if (!s) return null;
-  const d = new Date(s.replace(" ", "T"));
+  // Prodamus sends local date/time in Moscow. Require a valid timestamp,
+  // do not silently switch pre-sale prices around midnight.
+  const normalized = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}(?::\d{2})?$/.test(s)
+    ? s.replace(" ", "T") + "+03:00"
+    : s;
+  const d = new Date(normalized);
   return Number.isNaN(+d) ? null : d;
 }
 function adminClient() {
@@ -109,11 +114,11 @@ Deno.serve(async (req) => {
     const email = cleanEmail(payload.customer_email);
     const order = asText(payload.order_id || payload.order_num).trim();
     const kopecks = money(payload.sum);
-    const paidAt = parseDate(payload.date) || new Date();
+    const paidAt = parseDate(payload.date);
     const startPresale = Date.parse("2026-12-15T00:00:00+03:00");
     const endPresale = Date.parse("2027-01-01T00:00:00+03:00");
-    const presale = +paidAt >= startPresale && +paidAt < endPresale;
-    const regular = +paidAt >= endPresale;
+    const presale = paidAt !== null && +paidAt >= startPresale && +paidAt < endPresale;
+    const regular = paidAt !== null && +paidAt >= endPresale;
     const expected = presale ? (six ? 49000 : 89000) : regular ? (six ? 99000 : 149000) : null;
     if (!order || order.length > 120 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || kopecks !== expected) {
       return reply("Diary payment requires manual review", 422);
