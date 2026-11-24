@@ -19,7 +19,12 @@ function diaryPaidRender(){
   const status=document.getElementById('accountAccessStatus');
   const refresh=document.getElementById('refreshPaidAccess');
   if(!status || !refresh) return;
-  if(!diaryPaidState.userId){status.textContent='';refresh.hidden=true;return;}
+  const lockedMessage=document.getElementById('paidLockMessage');
+  if(!diaryPaidState.userId){
+    status.textContent='';refresh.hidden=true;
+    if(lockedMessage) lockedMessage.textContent='Войдите в зарегистрированный аккаунт с подтверждённой электронной почтой. После проверки оплаты дневник откроется на приобретённый срок.';
+    return;
+  }
   refresh.hidden=false;
   const now=Date.now();
   const current=diaryPaidState.access.filter(e=>Date.parse(e.starts_at)<=now && now<Date.parse(e.ends_at))
@@ -31,6 +36,11 @@ function diaryPaidRender(){
   else if(future) status.textContent='Оплата подтверждена. Доступ с '+diaryPaidDate(future.starts_at)+' по '+diaryPaidDate(Date.parse(future.ends_at)-1000)+'.';
   else if(now<Date.parse('2027-01-01T00:00:00+03:00')) status.textContent='Бесплатное тестирование доступно до 31 декабря 2026 года. Оплаченных периодов пока нет.';
   else status.textContent='Оплаченный доступ для этого аккаунта не найден. Для активации используйте почту, указанную при покупке.';
+  if(lockedMessage){
+    lockedMessage.textContent=diaryPaidState.error
+      ? 'Не удалось связаться с проверкой оплаты. Проверьте интернет и нажмите «Проверить доступ» в панели аккаунта.'
+      : 'Для этого аккаунта активный оплаченный период пока не найден. Проверьте подтверждение оплаты и совпадение электронной почты при покупке и регистрации.';
+  }
 }
 function diaryPaidClear(){
   diaryPaidState.userId=null;diaryPaidState.verified=false;diaryPaidState.access=[];diaryPaidState.error='';
