@@ -226,4 +226,34 @@ section{scroll-margin-top:22px}
   }
 })();
 </script>
+<script src="sales-config.js?v=20261124-1"></script>
+<script>
+(function () {
+  'use strict';
+  const cfg = window.DiaryCheckoutConfiguration;
+  if (!cfg || cfg.paymentsEnabled !== true) return;
+  const now = Date.now();
+  if (!(now >= Date.parse(cfg.presaleStart) && now < Date.parse(cfg.presaleEndExclusive))) return;
+  const offers = document.querySelectorAll('#tariffs .plan');
+  if (offers.length !== 2) return;
+  // Production orders must still be verified by a signed Prodamus webhook.
+  [
+    [offers[0], cfg.presaleSixMonths, 'Оплатить 490 ₽'],
+    [offers[1], cfg.presaleTwelveMonths, 'Оплатить 890 ₽']
+  ].forEach(function ([card, url, label]) {
+    if (!/^https:\/\/payform\.ru\/[A-Za-z0-9]+\/$/.test(url)) return;
+    const anchor = card.querySelector('a.btn');
+    if (!anchor) return;
+    anchor.href = url;
+    anchor.textContent = label;
+    anchor.rel = 'noopener noreferrer';
+  });
+  const note = document.querySelector('#tariffs .caveat');
+  if (note) note.textContent =
+    'После нажатия вы переходите на защищённую страницу Prodamus. Для получения доступа используйте тот же email, что и в аккаунте дневника. Покупки подтверждаются сервером после оплаты, доступ по предпродаже начинается 1 января 2027 года.';
+  const footerNote = document.querySelector('.footer p:last-child');
+  if (footerNote) footerNote.textContent =
+    'Оплата обрабатывается на стороне Prodamus. В этом дневнике нет ежемесячных автоматических списаний.';
+}());
+</script>
 </body></html>
