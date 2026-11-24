@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#e9f4f0">
+<title>Дневник состояний и настроений — доступ на 2027 год</title>
+<meta name="description" content="Дневник состояний и настроений: бесплатное тестирование до 31 декабря 2026 года. Условия доступа на 6 и 12 месяцев в 2027 году.">
+<link rel="icon" href="assets/diary-shortcut.svg" type="image/svg+xml">
+<style>
+:root{color-scheme:light;font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#294659;background:#f2f7f8;line-height:1.58}
+*{box-sizing:border-box}body{margin:0;min-width:300px}
+a{color:#236b78;text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:3px solid #5096a1;outline-offset:3px}
+.page{max-width:1060px;margin:auto;padding:0 20px}
+.header{background:#fffaf7;border-bottom:1px solid #e7ebeb;position:relative;overflow:hidden}
+.header::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,251,248,.98) 0%,rgba(255,251,248,.88) 47%,rgba(255,251,248,.40) 100%),url("assets/diary-botanical-real-2026.jpg?v=20261124");background-position:center,right center;background-size:cover;opacity:.83;pointer-events:none}
+.header .page{position:relative;padding-top:17px;padding-bottom:75px}
+.topnav{display:flex;justify-content:space-between;gap:15px;align-items:center;flex-wrap:wrap}
+.identity{display:flex;align-items:center;gap:10px;font-weight:700;color:#30576a;font-size:14px}
+.identity svg{width:37px;height:37px;flex:0 0 auto}
+.back{display:inline-flex;align-items:center;gap:7px;background:#fff9;border:1px solid #cbdedb;border-radius:13px;padding:8px 12px;text-decoration:none;font-size:13px;font-weight:650}
+.intro{max-width:700px;padding-top:50px}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.13em;font-weight:750;color:#347e79}
+h1{font-size:clamp(30px,4.5vw,48px);line-height:1.15;letter-spacing:-.035em;margin:11px 0 16px;color:#274760}
+.lead{font-size:clamp(16px,1.9vw,19px);max-width:660px;margin:0 0 20px}
+.note{font-size:13px;color:#58717d}
+.hero-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:24px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:11px 19px;border-radius:12px;font-weight:700;font-size:14px;text-decoration:none;border:1px solid #9cbab8}
+.btn.primary{background:#347d78;color:white;border-color:#347d78}
+.btn.primary:hover{background:#266761}
+.btn.secondary{background:#fffaf5d9;color:#285e64}
+.btn.secondary:hover{background:#eaf5f1}
+main.page{padding-top:22px;padding-bottom:54px}
+.status{border:1px solid #cce1db;border-radius:18px;background:#f5fcf9;box-shadow:0 4px 20px #31575a0b;padding:18px 21px;display:flex;gap:12px;align-items:flex-start;margin-top:-48px;position:relative}
+.status .symbol{font-size:22px}
+.status strong{color:#315f56}
+.status p{margin:3px 0 0;font-size:14px}
+section{scroll-margin-top:22px}
+.sectionhead{text-align:center;max-width:660px;margin:54px auto 23px}
+.sectionhead h2{font-size:clamp(25px,3vw,31px);line-height:1.2;margin:0 0 10px;color:#284b61}
+.sectionhead p{font-size:15px;color:#5b7580;margin:0}
+.pricing{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.plan{background:#fff;border:1px solid #dce9e8;border-radius:22px;box-shadow:0 9px 28px #284b6211;padding:26px;display:flex;flex-direction:column;gap:8px}
+.plan.featured{border:2px solid #80b7a9;background:linear-gradient(155deg,#fff,#f7fcf9)}
+.plan .name{font-size:19px;font-weight:800;color:#31556b;margin:0}
+.pill{display:inline-block;align-self:flex-start;background:#e6f5ee;color:#34796a;border-radius:100px;font-size:12px;font-weight:750;padding:4px 11px}
+.oldprice{font-size:15px;color:#657c85;margin:10px 0 0}
+.price{display:flex;align-items:baseline;gap:7px;margin:0;color:#244b61}
+.price b{font-size:43px;line-height:1.05;letter-spacing:-.06em}
+.price span{font-size:15px;font-weight:600}
+.plan .period{font-size:14px;color:#5e7680;margin:1px 0 12px}
+.plan ul{margin:3px 0 22px;padding-left:19px;flex:1 1 auto}
+.plan li{margin:8px 0;font-size:14px}
+.plan .btn{width:100%}
+.caveat{margin:18px auto 0;padding:13px 15px;background:#fff7e8;border:1px solid #ecdfb9;border-radius:13px;color:#6c5a3a;font-size:13px;max-width:1000px}
+.features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.feature{background:#fff;border:1px solid #deebec;border-radius:17px;padding:18px}
+.feature h3{font-size:17px;color:#31536a;margin:4px 0 7px}
+.feature p{font-size:14px;color:#597480;margin:0}
+.feature .sign{font-size:23px}
+.faq{max-width:835px;margin:0 auto}
+.faq details{background:white;border:1px solid #dce8e8;border-radius:13px;margin:9px 0;padding:0 17px}
+.faq summary{padding:16px 0;font-weight:700;cursor:pointer}
+.faq details p{font-size:14px;color:#58727c;margin:0 0 17px}
+.last{max-width:740px;margin:55px auto 12px;background:linear-gradient(130deg,#e2f1ed,#fdf9f4);border:1px solid #c9e4dd;border-radius:23px;padding:28px 27px;text-align:center}
+.last h2{margin:0 0 8px;color:#28516a;font-size:25px}
+.last p{margin:0 auto 18px;max-width:560px;font-size:14px}
+.footer{border-top:1px solid #dae7e8;background:#fbfdfd;text-align:center;padding:23px 20px 28px;font-size:12px;color:#697d85}
+.footer p{margin:5px auto;max-width:780px}
+@media(max-width:700px){
+ .page{padding-left:15px;padding-right:15px}
+ .header::before{background-position:center,right center;opacity:.48}
+ .header .page{padding-bottom:69px}
+ .intro{padding-top:26px}
+ .status{margin-top:-34px;padding:15px}
+ .pricing{grid-template-columns:1fr;gap:13px}
+ .plan{padding:21px}
+ .features{grid-template-columns:1fr;gap:10px}
+ .sectionhead{margin:40px auto 18px}
+ .last{margin-top:35px;padding:24px 18px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="page">
+    <nav class="topnav" aria-label="Навигация">
+      <span class="identity">
+        <svg viewBox="0 0 44 44" aria-hidden="true" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="9" y="5" width="27" height="34" rx="6" fill="#a6cfca" stroke="#5d9f9e" stroke-width="1.5"/>
+          <path d="M15 5v34" stroke="#e7f6f0" stroke-width="3"/>
+          <path d="M20 16h10M20 21h8" stroke="#f6fcfa" stroke-linecap="round" stroke-width="2.5"/>
+          <path d="M22 27c-2-2 0-5 2-4 1-2 4-1 4 1 0 2-4 5-4 5s-2-1-2-2Z" fill="#fff2e8"/>
+        </svg>
+        Дневник состояний и настроений
+      </span>
+      <a class="back" href="./">← Открыть дневник</a>
+    </nav>
+    <div class="intro">
+      <span class="eyebrow">Ваш дневник в 2027 году</span>
+      <h1>Продолжайте замечать, что с вами происходит</h1>
+      <p class="lead">Удобный дневник для наблюдения за настроением, мыслями и реакциями. Заполняйте записи в своём темпе и возвращайтесь к ним между встречами с психологом или для самостоятельного наблюдения.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#tariffs">Посмотреть условия доступа</a>
+        <a class="btn secondary" href="./">Попробовать дневник бесплатно</a>
+      </div>
+    </div>
+  </div>
+</header>
+<main class="page">
+  <div class="status" role="note">
+    <span class="symbol" aria-hidden="true">🌿</span>
+    <div><strong>Бесплатное тестирование — до 31 декабря 2026 включительно</strong>
+      <p>Сейчас можно пользоваться всеми разделами. Предпродажа доступа на 2027 год запланирована на 15–31 декабря. Оплаченный период начинается с 1 января 2027 года.</p>
+    </div>
+  </div>
+
+  <section id="tariffs" aria-labelledby="tariffHeading">
+    <div class="sectionhead">
+      <span class="eyebrow">Условия предпродажи</span>
+      <h2 id="tariffHeading">Выберите удобный срок</h2>
+      <p>Планируемые цены с 15 по 31 декабря 2026 года включительно, по московскому времени. Один платёж за выбранный период, без ежемесячных списаний.</p>
+    </div>
+    <div class="pricing">
+      <article class="plan">
+        <span class="pill">Для знакомства</span>
+        <h3 class="name">Доступ на 6 месяцев</h3>
+        <p class="oldprice">Обычная цена с 1 января: <s>990 ₽</s></p>
+        <p class="price"><b>490 ₽</b><span>один раз</span></p>
+        <p class="period">С 1 января по 30 июня 2027 года</p>
+        <ul>
+          <li>Все разделы дневника</li>
+          <li>Отметки утром, днём и вечером</li>
+          <li>Записи ситуаций, мыслей и реакций</li>
+          <li>Обзор недели и динамика</li>
+        </ul>
+        <a class="btn secondary" href="mailto:regina.denisova.psy@mail.ru?subject=%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%20%D0%BA%20%D0%B4%D0%BD%D0%B5%D0%B2%D0%BD%D0%B8%D0%BA%D1%83%20%E2%80%94%206%20%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2&body=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%9C%D0%BD%D0%B5%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%B5%D0%BD%20%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%20%D0%BA%20%D0%B4%D0%BD%D0%B5%D0%B2%D0%BD%D0%B8%D0%BA%D1%83%20%D0%BD%D0%B0%206%20%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2.">Мне интересен этот вариант</a>
+      </article>
+      <article class="plan featured">
+        <span class="pill">На весь 2027 год</span>
+        <h3 class="name">Доступ на 12 месяцев</h3>
+        <p class="oldprice">Обычная цена с 1 января: <s>1 490 ₽</s></p>
+        <p class="price"><b>890 ₽</b><span>один раз</span></p>
+        <p class="period">С 1 января по 31 декабря 2027 года</p>
+        <ul>
+          <li>Все возможности тарифа на 6 месяцев</li>
+          <li>Отслеживание изменений в течение года</li>
+          <li>Личный дневник на весь 2027 год</li>
+          <li>Без продления в июле и ежемесячных платежей</li>
+        </ul>
+        <a class="btn primary" href="mailto:regina.denisova.psy@mail.ru?subject=%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%20%D0%BA%20%D0%B4%D0%BD%D0%B5%D0%B2%D0%BD%D0%B8%D0%BA%D1%83%20%E2%80%94%2012%20%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2&body=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%9C%D0%BD%D0%B5%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D0%B5%D0%BD%20%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%20%D0%BA%20%D0%B4%D0%BD%D0%B5%D0%B2%D0%BD%D0%B8%D0%BA%D1%83%20%D0%BD%D0%B0%2012%20%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B5%D0%B2.">Мне интересен этот вариант</a>
+      </article>
+    </div>
+    <p class="caveat">Это страница предварительного знакомства с условиями. Кнопки сейчас позволяют сообщить об интересе по электронной почте — <strong>они не являются оплатой или бронированием тарифа</strong>. Реальные покупки откроем только после финальной проверки выдачи доступа и документов.</p>
+  </section>
+
+  <section aria-labelledby="whatHeading">
+    <div class="sectionhead">
+      <h2 id="whatHeading">Для чего нужен дневник</h2>
+      <p>Не для «идеального настроения», а чтобы со временем лучше понимать собственные реакции.</p>
+    </div>
+    <div class="features">
+      <div class="feature"><div class="sign" aria-hidden="true">☀️</div><h3>Три момента дня</h3><p>Короткие отметки утром, днём и вечером о самочувствии, энергии и уровне напряжения.</p></div>
+      <div class="feature"><div class="sign" aria-hidden="true">📝</div><h3>Ситуации и мысли</h3><p>Запишите, что произошло, что подумали, почувствовали и как отреагировали.</p></div>
+      <div class="feature"><div class="sign" aria-hidden="true">📈</div><h3>Обзор изменений</h3><p>Возвращайтесь к записям, наблюдайте динамику и отмечайте темы для обсуждения с психологом.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="faqHeading">
+    <div class="sectionhead"><h2 id="faqHeading">Ответы на важные вопросы</h2></div>
+    <div class="faq">
+      <details><summary>До какого числа можно пользоваться бесплатно?</summary><p>До 31 декабря 2026 года включительно по московскому времени. С 1 января 2027 года доступ к рабочим разделам планируется предоставлять на оплаченный период.</p></details>
+      <details><summary>Если оформлю доступ в декабре, он начнётся сразу?</summary><p>Нет. Предпродажа рассчитана на использование с 1 января 2027 года. На время бесплатного тестирования оплата не нужна.</p></details>
+      <details><summary>Это ежемесячная подписка?</summary><p>Нет. Планируется единоразовая оплата за 6 либо 12 месяцев без автоматического продления и регулярных списаний.</p></details>
+      <details><summary>Нужно ли создавать аккаунт?</summary><p>Для оплаченного доступа потребуется аккаунт с подтверждённой электронной почтой. Используйте при покупке тот же адрес, что указан в аккаунте.</p></details>
+      <details><summary>Сохраняются ли записи, если доступ закончился?</summary><p>Дневник хранит записи в браузере на том устройстве, где их создавали. Они не удаляются автоматически при окончании срока. Можно скачать резервную копию. При очистке браузера или смене устройства без копии записи могут потеряться.</p></details>
+      <details><summary>Подойдёт ли дневник для работы с психологом?</summary><p>Да, можно готовить заметки к консультациям. При этом дневник не заменяет диагностику, лечение или психологическую помощь. Отдельные условия для специалистов и индивидуальные версии будут рассматриваться позже.</p></details>
+    </div>
+  </section>
+
+  <div class="last">
+    <h2>Пока можно попробовать бесплатно 🌿</h2>
+    <p>Заполните несколько отметок, проверьте удобство дневника на телефоне или компьютере и решите, нужен ли он вам на 2027 год.</p>
+    <a class="btn primary" href="./">Открыть дневник</a>
+  </div>
+</main>
+<footer class="footer">
+  <p>Денисова Регина Ринатовна · самозанятая · «Дневник состояний и настроений»</p>
+  <p>Вопросы о дневнике: <a href="mailto:regina.denisova.psy@mail.ru">regina.denisova.psy@mail.ru</a> · <a href="https://taplink.cc/reginaden.legal" target="_blank" rel="noopener noreferrer">Юридическая информация</a></p>
+  <p>Без аналитических или рекламных скриптов на этой странице. Никакой оплаты при нажатии «Мне интересно» не происходит.</p>
+</footer>
+</body></html>
