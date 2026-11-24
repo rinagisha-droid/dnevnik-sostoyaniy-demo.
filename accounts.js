@@ -104,6 +104,10 @@ function showAccountForm(mode) {
   if (!coverDialog.open) coverDialog.showModal();
 }
 
+function openLocalDiary() {
+  document.body.removeAttribute('data-cover');
+}
+
 function hideAccountDiary() {
   stopDiaryDictation();
   document.body.dataset.cover = '';
@@ -177,6 +181,7 @@ function transitionToDiary(owner, user, version = accountIdentityVersion) {
       : 'Записи без аккаунта хранятся в этом браузере. Копию можно скачать в разделе «Мои записи».';
     openLocalDiary();
     accountBar.hidden = false;
+    closeExpiredTrial();
     window.scrollTo(0, 0);
   });
   return accountTransition;
@@ -189,6 +194,7 @@ async function openLegacyDiary() {
 
 function clearSignedOutView() {
   hideAccountDiary();
+  diaryPaidClear();
   if (!savingFailed) {
     data = {};
     encryptionKey = null;
@@ -231,7 +237,12 @@ async function acceptAccountSession(session, version) {
     showAccountForm('reset');
     return;
   }
-  if (alreadyOpen || (accountOwner === 'legacy' && !document.body.hasAttribute('data-cover'))) return;
+  await diaryPaidRefresh(session, result.user.id);
+  if (version !== accountIdentityVersion) return;
+  if (alreadyOpen || (accountOwner === 'legacy' && !document.body.hasAttribute('data-cover'))) {
+    closeExpiredTrial();
+    return;
+  }
   await transitionToDiary(result.user.id, result.user, version);
 }
 
@@ -255,6 +266,7 @@ async function runAccountAction(form, action) {
   }
 }
 
+document.getElementById('openLocalDiary').addEventListener('click', openLegacyDiary);
 document.querySelectorAll('[data-account-mode]').forEach(button => {
   button.addEventListener('click', () => showAccountForm(button.dataset.accountMode));
 });
