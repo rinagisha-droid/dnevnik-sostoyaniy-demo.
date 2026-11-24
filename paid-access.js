@@ -149,9 +149,9 @@ document.getElementById('retryDiaryTime')?.addEventListener('click', async funct
   try { await diaryClockSync(); }
   finally { this.disabled=false; }
 });
-// Refresh trusted time on initial load, regularly, and when returning to the tab.
-diaryClockSync();
-setInterval(diaryClockSync, 60000);
+// accounts.js defines accountProjectUrl after this script; start at window load.
+window.addEventListener('load', () => diaryClockSync(), {once:true});
+setInterval(() => { if (typeof accountProjectUrl !== 'undefined') diaryClockSync(); }, 60000);
 document.addEventListener('visibilitychange', () => {
   if (!document.hidden && performance.now() - diaryClock.lastSync > 15000) diaryClockSync();
 });
