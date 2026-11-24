@@ -192,4 +192,38 @@ section{scroll-margin-top:22px}
   <p>Вопросы о дневнике: <a href="mailto:regina.denisova.psy@mail.ru">regina.denisova.psy@mail.ru</a> · <a href="https://taplink.cc/reginaden.legal" target="_blank" rel="noopener noreferrer">Юридическая информация</a></p>
   <p>Без аналитических или рекламных скриптов на этой странице. Никакой оплаты при нажатии «Мне интересно» не происходит.</p>
 </footer>
+<script>
+
+(function(){
+  'use strict';
+  // The display follows Moscow dates, not the visitor's local time zone.
+  // This is not a payment or entitlement check.
+  const begin=Date.parse('2026-12-15T00:00:00+03:00');
+  const end=Date.parse('2027-01-01T00:00:00+03:00');
+  const now=Date.now();
+  const pricingLabel=document.querySelector('#tariffs .sectionhead .eyebrow');
+  const pricingDescription=document.querySelector('#tariffs .sectionhead p');
+  const status=document.querySelector('.status');
+  const plans=[...document.querySelectorAll('.plan')];
+  if(now>=begin&&now<end){
+    pricingLabel.textContent='Предпродажа — 15–31 декабря';
+    pricingDescription.textContent='Акционные цены действуют до 31 декабря 2026 года включительно по московскому времени. Оплаченный период начинается 1 января 2027 года. Один платёж за выбранный срок.';
+  }
+  if(now>=end){
+    status.querySelector('strong').textContent='Бесплатное тестирование завершилось 31 декабря 2026 года';
+    status.querySelector('p').textContent='С 1 января 2027 года дневник предусмотрен для использования по оплаченному тарифу. Если доступ уже приобретён, войдите в свой аккаунт.';
+    pricingLabel.textContent='Условия после акции';
+    pricingDescription.textContent='Обычные цены с 1 января 2027 года. Один платёж за выбранный срок, без автоматического продления. Оплату подключим после окончательной проверки системы доступа.';
+    plans[0].querySelector('.oldprice').hidden=true;
+    plans[1].querySelector('.oldprice').hidden=true;
+    plans[0].querySelector('.price b').textContent='990 ₽';
+    plans[1].querySelector('.price b').textContent='1 490 ₽';
+    plans[0].querySelector('.period').textContent='6 месяцев с даты активации';
+    plans[1].querySelector('.period').textContent='12 месяцев с даты активации';
+    document.querySelector('.hero-actions .btn.secondary').textContent='Перейти к дневнику';
+    document.querySelector('.last h2').textContent='Ваш дневник в 2027 году 🌿';
+    document.querySelector('.last p').textContent='Если доступ уже куплен, войдите в аккаунт. Если хотите узнать о покупке, воспользуйтесь кнопками заинтересовавшего тарифа выше.';
+  }
+})();
+</script>
 </body></html>
