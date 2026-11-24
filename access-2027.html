@@ -114,21 +114,21 @@ section{scroll-margin-top:22px}
   <div class="status" role="note">
     <span class="symbol" aria-hidden="true">🌿</span>
     <div><strong>Бесплатное тестирование — до 31 декабря 2026 включительно</strong>
-      <p>Сейчас можно пользоваться всеми разделами. Предпродажа доступа на 2027 год запланирована на 15–31 декабря. Оплаченный период начинается с 1 января 2027 года.</p>
+      <p>Сейчас можно пользоваться всеми разделами. С 15 по 31 декабря будем собирать заявки и проверять интерес к доступу на 2027 год. Оплата пока не открыта.</p>
     </div>
   </div>
 
   <section id="tariffs" aria-labelledby="tariffHeading">
     <div class="sectionhead">
       <span class="eyebrow">Условия предпродажи</span>
-      <h2 id="tariffHeading">Выберите удобный срок</h2>
-      <p>Планируемые цены с 15 по 31 декабря 2026 года включительно, по московскому времени. Один платёж за выбранный период, без ежемесячных списаний.</p>
+      <h2 id="tariffHeading">Какой срок вам интересен?</h2>
+      <p>Планируемые цены и сроки на 2027 год. С 15 по 31 декабря 2026 года проверяем интерес к этим вариантам без оплаты. Если продажи будут открыты, платёж будет разовым — без автоматических списаний.</p>
     </div>
     <div class="pricing">
       <article class="plan">
         <span class="pill">Для знакомства</span>
         <h3 class="name">Доступ на 6 месяцев</h3>
-        <p class="oldprice">Обычная цена с 1 января: <s>990 ₽</s></p>
+        <p class="oldprice">Планируемая обычная цена: <s>990 ₽</s></p>
         <p class="price"><b>490 ₽</b><span>один раз</span></p>
         <p class="period">С 1 января по 30 июня 2027 года</p>
         <ul>
@@ -142,7 +142,7 @@ section{scroll-margin-top:22px}
       <article class="plan featured">
         <span class="pill">На весь 2027 год</span>
         <h3 class="name">Доступ на 12 месяцев</h3>
-        <p class="oldprice">Обычная цена с 1 января: <s>1 490 ₽</s></p>
+        <p class="oldprice">Планируемая обычная цена: <s>1 490 ₽</s></p>
         <p class="price"><b>890 ₽</b><span>один раз</span></p>
         <p class="period">С 1 января по 31 декабря 2027 года</p>
         <ul>
@@ -207,14 +207,14 @@ section{scroll-margin-top:22px}
   const status=document.querySelector('.status');
   const plans=[...document.querySelectorAll('.plan')];
   if(now>=begin&&now<end){
-    pricingLabel.textContent='Предпродажа — 15–31 декабря';
-    pricingDescription.textContent='Акционные цены действуют до 31 декабря 2026 года включительно по московскому времени. Оплаченный период начинается 1 января 2027 года. Один платёж за выбранный срок.';
+    pricingLabel.textContent='Проверяем интерес — 15–31 декабря';
+    pricingDescription.textContent='С 15 по 31 декабря собираем обращения по двум запланированным тарифам. Это не покупка и не бронирование цены: пока кнопки только открывают подготовленное письмо. Оплаченный доступ предполагается с 1 января 2027 года.';
   }
   if(now>=end){
     status.querySelector('strong').textContent='Бесплатное тестирование завершилось 31 декабря 2026 года';
     status.querySelector('p').textContent='С 1 января 2027 года дневник предусмотрен для использования по оплаченному тарифу. Если доступ уже приобретён, войдите в свой аккаунт.';
     pricingLabel.textContent='Условия после акции';
-    pricingDescription.textContent='Обычные цены с 1 января 2027 года. Один платёж за выбранный срок, без автоматического продления. Оплату подключим после окончательной проверки системы доступа.';
+    pricingDescription.textContent='Ориентировочные обычные цены на 2027 год. Это предварительная информация, покупка пока недоступна. Автоматического продления не планируется.';
     plans[0].querySelector('.oldprice').hidden=true;
     plans[1].querySelector('.oldprice').hidden=true;
     plans[0].querySelector('.price b').textContent='990 ₽';
