@@ -8,7 +8,7 @@ function diaryPaidActive(){
   if(typeof accountOwner === 'undefined' || accountOwner !== diaryPaidState.userId) return false;
   if(typeof verifiedAccount === 'undefined' || verifiedAccount?.id !== diaryPaidState.userId) return false;
   const now=Date.now();
-  return diaryPaidState.access.some(item=>item.active !== false && Date.parse(item.starts_at)<=now && now<Date.parse(item.ends_at));
+  return diaryPaidState.access.some(item=>Date.parse(item.starts_at)<=now && now<Date.parse(item.ends_at));
 }
 function diaryPaidDate(value){
   const d=new Date(value);
@@ -27,8 +27,9 @@ function diaryPaidRender(){
   const future=diaryPaidState.access.filter(e=>Date.parse(e.starts_at)>now)
     .sort((a,b)=>Date.parse(a.starts_at)-Date.parse(b.starts_at))[0];
   if(diaryPaidState.error) status.textContent='Проверка оплаты временно недоступна. Повторите позднее.';
-  else if(current) status.textContent='Оплаченный доступ активен до '+diaryPaidDate(current.ends_at)+'.';
-  else if(future) status.textContent='Оплата подтверждена. Доступ с '+diaryPaidDate(future.starts_at)+' по '+diaryPaidDate(future.ends_at)+'.';
+  else if(current) status.textContent='Оплаченный доступ активен по '+diaryPaidDate(Date.parse(current.ends_at)-1000)+'.';
+  else if(future) status.textContent='Оплата подтверждена. Доступ с '+diaryPaidDate(future.starts_at)+' по '+diaryPaidDate(Date.parse(future.ends_at)-1000)+'.';
+  else if(now<Date.parse('2027-01-01T00:00:00+03:00')) status.textContent='Бесплатное тестирование доступно до 31 декабря 2026 года. Оплаченных периодов пока нет.';
   else status.textContent='Оплаченный доступ для этого аккаунта не найден. Для активации используйте почту, указанную при покупке.';
 }
 function diaryPaidClear(){
