@@ -441,7 +441,7 @@ body::before{
 .chart-legend .chart-energy::before{border-top:2px dashed #7952b3}
 .chart-legend .chart-stress::before{border-top:2px dotted #16766f}
 </style>
-<link rel="stylesheet" href="entry.css?v=analytics-consent-1">
+<link rel="stylesheet" href="entry.css?v=analytics-banner-20261124-1">
 <link rel="icon" href="assets/diary-shortcut.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" type="image/x-icon" sizes="32x32">
 <link rel="icon" href="assets/diary-shortcut-192.png" type="image/png" sizes="192x192">
@@ -502,12 +502,13 @@ body::before{
 <path d="M12 24H25M12 42H25M12 60H25" stroke="#789ca1" stroke-width="1.4" stroke-linecap="round"/>
 </svg></div><div class="journal-heading"><h1>Дневник состояний и настроений</h1><p class="sub">Наблюдения между сессиями</p></div></div>
 </header>
-<section id="analyticsNotice" class="panel analytics-notice" aria-label="Статистика посещений" hidden>
-  <h2>Статистика посещений</h2>
-  <p>Разрешить Яндекс Метрике собирать сведения о посещениях, браузере и устройстве, IP-адрес и использовать cookies? Тексты дневника, оценки, имя и email в статистику не передаются.</p>
-  <p class="note">Выбор добровольный: отказ не ограничивает дневник. <a href="analytics-info.html" target="_blank" rel="noopener noreferrer">Подробнее о статистике</a></p>
-  <div class="actions"><button type="button" id="analyticsAllow">Разрешить статистику</button><button type="button" id="analyticsDecline">Без статистики</button></div>
-  <p id="analyticsStatus" class="note" role="status" aria-live="polite"></p>
+<section id="analyticsNotice" class="analytics-notice" role="region" aria-label="Cookie и статистика" hidden>
+  <p class="analytics-text">Мы используем cookie и Яндекс.Метрику для статистики посещений. «ОК» — согласие, × — без статистики. <a href="analytics-info.html" target="_blank" rel="noopener noreferrer">Подробнее</a>. Содержание дневника не передаётся.</p>
+  <div class="analytics-controls">
+    <button type="button" id="analyticsAllow" class="primary">ОК</button>
+    <button type="button" id="analyticsDecline" class="analytics-close" aria-label="Закрыть без статистики" title="Закрыть без статистики">×</button>
+  </div>
+  <p id="analyticsStatus" class="analytics-screen-reader" role="status" aria-live="polite"></p>
 </section>
 
 <section class="panel" id="diaryCover" aria-labelledby="coverTitle">
