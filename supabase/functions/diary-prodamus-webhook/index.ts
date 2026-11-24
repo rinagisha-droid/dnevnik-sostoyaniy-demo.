@@ -92,10 +92,11 @@ Deno.serve(async (req) => {
   if (!secret) return reply("Webhook not configured", 503);
   try {
     const { payload, sign } = await readPayload(req);
-    if (!isRecord(payload) || !(await validSignature(payload, secret, asText(sign)))) return reply("Invalid signature", 401);
+    if (!isRecord(payload) || !(await validSignature(payload, secret, asText(sign)))) { console.warn("diary_webhook_signature_rejected"); return reply("Invalid signature", 401); }
     const status = asText(payload.payment_status).toLowerCase();
-    if (status !== "success") return reply("success");
+    if (status !== "success") { console.info("diary_webhook_non_payment_event"); return reply("success"); }
     if (asText(payload.demo_mode) === "1" || asText(payload.demo_mode).toLowerCase() === "true") {
+      console.info("diary_webhook_verified_demo_ignored");
       return reply("success"); // explicit exclusion of demo transactions
     }
     const products = Array.isArray(payload.products) ? payload.products : [];
