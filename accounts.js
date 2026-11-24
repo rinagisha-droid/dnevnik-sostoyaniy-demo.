@@ -78,6 +78,10 @@ function accountError(error) {
 }
 
 function showAccountForm(mode) {
+  if (mode === 'signup') {
+    accountStatus.textContent = 'Регистрация новых аккаунтов временно закрыта. Бесплатный дневник доступен без регистрации до 31 декабря 2026 года.';
+    return;
+  }
   accountMode = mode;
   coverForm.reset();
   recoveryAccountForm.reset();
@@ -290,51 +294,26 @@ coverDialog.addEventListener('cancel', event => {
 
 coverForm.addEventListener('submit', event => {
   event.preventDefault();
-  const email = coverForm.elements.email.value.trim();
-  const password = coverPassword.value;
-  const signingUp = accountMode === 'signup';
-  const profile = signingUp ? {
-    given_name: coverForm.elements.givenName.value.trim(),
-    family_name: coverForm.elements.familyName.value.trim(),
-    ...(coverForm.elements.birthDate.value ? { birth_date: coverForm.elements.birthDate.value } : {}),
-    ...(coverForm.elements.city.value.trim() ? { city: coverForm.elements.city.value.trim() } : {})
-  } : undefined;
-  if (signingUp && (!profile.given_name || !profile.family_name)) {
-    accountMessage.textContent = 'Введите имя и фамилию.';
+  if (accountMode !== 'login') {
+    accountMessage.textContent = 'Новые аккаунты сейчас не создаются. Для тестирования откройте дневник без аккаунта.';
     return;
   }
+  const email = coverForm.elements.email.value.trim();
+  const password = coverPassword.value;
   runAccountAction(coverForm, async () => {
-    if (signingUp) {
-      accountMessage.textContent = 'Отправляем запрос регистрации…';
-      const { data: result, error } = await accountClient.auth.signUp({
-        email, password, options: { data: profile, emailRedirectTo: accountReturnUrl }
-      });
-      if (error) throw error;
-      if (result.session) {
-        await accountClient.auth.signOut({ scope: 'local' });
-        accountMessage.textContent = 'На сервере отключено подтверждение email. Настройка регистрации требует проверки.';
-        return;
+    if (rememberAccount.checked) localStorage.setItem(accountPreferenceKey, 'yes');
+    else if (!localStorage.getItem(accountSessionKey)) localStorage.setItem(accountPreferenceKey, 'no');
+    sessionStorage.setItem(accountPreferenceKey, rememberAccount.checked ? 'yes' : 'no');
+    accountMessage.textContent = 'Входим…';
+    const { data: result, error } = await accountClient.auth.signInWithPassword({ email, password });
+    if (error) {
+      if (error.code === 'email_not_confirmed') {
+        confirmationEmail = email;
+        document.getElementById('resendAccountEmail').hidden = false;
       }
-      confirmationEmail = email;
-      resendAfter = Date.now() + 60000;
-      coverPassword.value = '';
-      accountMessage.textContent = 'Запрос принят. Проверьте почту, включая «Спам». Подтвердите адрес по ссылке из письма, затем войдите. Если аккаунт уже создан, используйте вход или восстановление.';
-      document.getElementById('resendAccountEmail').hidden = false;
-    } else {
-      if (rememberAccount.checked) localStorage.setItem(accountPreferenceKey, 'yes');
-      else if (!localStorage.getItem(accountSessionKey)) localStorage.setItem(accountPreferenceKey, 'no');
-      sessionStorage.setItem(accountPreferenceKey, rememberAccount.checked ? 'yes' : 'no');
-      accountMessage.textContent = 'Входим…';
-      const { data: result, error } = await accountClient.auth.signInWithPassword({ email, password });
-      if (error) {
-        if (error.code === 'email_not_confirmed') {
-          confirmationEmail = email;
-          document.getElementById('resendAccountEmail').hidden = false;
-        }
-        throw error;
-      }
-      await acceptAccountSession(result.session, ++accountIdentityVersion);
+      throw error;
     }
+    await acceptAccountSession(result.session, ++accountIdentityVersion);
   });
 });
 
