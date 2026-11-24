@@ -157,9 +157,11 @@ async function selectDiaryStorage(owner) {
   rememberStorage();
   render();
   updatePrivacyUI();
-  document.getElementById('app').classList.toggle('hidden', isVaultPresent || Date.now() >= config.cutoff);
-  document.getElementById('vaultUnlock').classList.toggle('hidden', !isVaultPresent || Date.now() >= config.cutoff);
-  document.getElementById('lock').classList.toggle('hidden', Date.now() < config.cutoff);
+  const trialOrLicensed = (typeof diaryTrialActive === 'function' && diaryTrialActive())
+    || (typeof diaryPaidActive === 'function' && diaryPaidActive());
+  document.getElementById('app').classList.toggle('hidden', isVaultPresent || !trialOrLicensed);
+  document.getElementById('vaultUnlock').classList.toggle('hidden', !isVaultPresent || !trialOrLicensed);
+  document.getElementById('lock').classList.toggle('hidden', trialOrLicensed);
   saveStatus(invalidEntries
     ? 'Не удалось открыть записи. Исходное хранилище сохранено. Можно восстановить корректную копию в разделе «Мои записи».'
     : 'Записи сохраняются в этом браузере.');
