@@ -963,11 +963,13 @@ document.getElementById('importFile').onchange=restoreDiary;
 function openPayment(kind){let url=kind==='personal'?config.personalPayment:config.proPayment;if(url&&/^https:\/\//.test(url))window.open(url,'_blank','noopener,noreferrer');else alert('Ссылка оплаты ещё не подключена. Её необходимо создать в Prodamus и проверить.')} 
 function closeExpiredTrial(){
  const lock=document.getElementById('lock'),app=document.getElementById('app'),vault=document.getElementById('vaultUnlock');
+ const wasLocked=!lock.classList.contains('hidden');
  const trialActive=typeof diaryTrialActive==='function' && diaryTrialActive();
  if(trialActive){
    lock.classList.add('hidden');
    if(isVaultPresent && !encryptionKey){app.classList.add('hidden');vault.classList.remove('hidden');}
    else{vault.classList.add('hidden');app.classList.remove('hidden');}
+   if(wasLocked){render();updatePrivacyUI();}
    return false;
  }
  const paid=typeof diaryPaidActive==='function' && diaryPaidActive();
@@ -975,6 +977,7 @@ function closeExpiredTrial(){
    lock.classList.add('hidden');
    if(isVaultPresent && !encryptionKey){app.classList.add('hidden');vault.classList.remove('hidden');}
    else{vault.classList.add('hidden');app.classList.remove('hidden');}
+   if(wasLocked){render();updatePrivacyUI();}
    return false;
  }
  stopDiaryDictation();
